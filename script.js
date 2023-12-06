@@ -373,3 +373,157 @@
 // from the user class.
 // And that's actually it.
 // That's all you need to know about polymorphism.
+
+//////////////////////////////////////////////////////////
+// OOP in JavaScript
+//////////////////////////////////////////////////////////
+
+// And in this lecture, we will learn about OOP
+// specifically in JavaScript.
+// So, how it's different from the more traditional OOP
+// and also different ways
+// of implementing this paradigm in JavaScript.
+
+// And remember, a class is like a blueprint
+// which is a theoretical plan
+// and that we use to build many houses in the real world.
+// And in the same way,
+// the theoretical class can be used to create actual objects
+// which are called instances
+// and which we can then use in our cout.
+// And this process of creating an instance
+// is called instantiation.
+
+// Now earlier, I said that in JavaScript
+// things work a bit differently.
+
+// So why did I first tell you about classes and instances?
+// Well, it's because we do have similar concepts in JavaScript
+// and so it's very useful
+// to first understand the class instance model.
+
+// Plus, many people also just use this terminology
+// in the context of JavaScript.
+
+// And finally, JavaScript syntax itself
+// uses also some of these terms for example, instances.
+// And so, you really need to know
+// what a class is and what an instance is.
+
+//===
+// Now, anyway, how does OOP actually work in JavaScript?
+// Well, in JavaScript we have something called prototypes
+// and all objects in JavaScript
+// are linked to a certain prototype object.
+
+// So we say that each object has a prototype.
+// And now here comes the magic.
+// So, the prototype object contains methods and properties
+// that all the objects that are linked to that prototype
+// can access and use.
+
+// And this behavior is usually called prototypal inheritance.
+// So, again, prototypal inheritance means that all objects
+// that are linked to a certain prototype object
+// can use the methods and properties
+// that are defined on that prototype.
+
+// So basically, objects inherit methods and properties
+// from the prototype which is the reason why this mechanism
+// is called prototypal inheritance.
+
+// Just note that this inheritance is actually different
+// from the inheritance that we talked about
+// in the last lecture.
+// So that was one class inheriting from another class.
+
+// But in this case,
+// it's basically an instance inheriting from a class.
+// So that's very different
+// and so keep that in mind
+// or maybe in your notes.
+
+// Now we can also say that objects delegate behavior
+// to the linked prototype object.
+
+// And behavior is just another term for methods here.
+
+// So besides prototypal inheritance,
+// we also call this mechanism, delegation.
+
+// And that's also the reason why
+// this arrow is pointing upwards
+// because technically, objects delegate their behavior
+// to the prototype.
+
+// On the other hand, in classical OOP with classes,
+// the behavior, so the methods, are actually copied
+// from the class to the object
+// and so that is completely different.
+
+///====
+// 3 ways of implementing prototypel
+// inheritance in javascript
+
+// how do we implement Object-Oriented Programming
+// in JavaScript in practice?
+
+// Well, in JavaScript there are actually three different ways
+// of doing all this: the constructor function technique,
+// ES6 classes and also the Object.create().
+
+//===
+// 1) constructor function
+
+// So first, constructor functions are a way
+// of creating objects programmatically,
+// using a function which will also set
+// the new object's prototype.
+
+// And this is actually how built-in objects like arrays
+// or maps or sets are implemented.
+// Also, this is how OOP has been done in JavaScript
+// basically since the beginning.
+
+//==
+// 2) ES6 classes
+
+// Next, the ES6 release introduced classes into JavaScript.
+// And so now, ES6 classes are actually the more modern way
+// of doing OOP in JavaScript.
+
+// However, keep in mind that these are actually
+// not the kind of classes that we talked about
+// in the last lecture and in the last slide.
+// They are instead just so called 'synthetic sugar'
+// over constructor functions.
+
+// So this means that ES6 classes are basically just
+// a layer of obstruction over constructor functions.
+// So, it's really just a nicer syntax
+// that makes it easier for newcomers to do OOP in JavaScript.
+
+// But behind the scenes, ES6 classes are actually implemented
+// with constructor functions.
+// And so they also use prototypal inheritance
+// just like we learnt in the last slide.
+
+// 3) Object.create().
+
+// Finally, there's also the object.create()
+// which is basically the easiest and most straightforward way
+// of linking an object to a prototype object.
+
+// However, it's not as used as the other two methods
+
+//==
+// Now, to finish, one important thing to keep in mind
+// is that the four principles of Object-Oriented Programming
+// that we learnt in the last lecture,
+
+// so that's obstruction, encapsulation, inheritance
+// and polymorphism are still valid and important
+// with prototypal inheritance.
+// And throughout this section,
+// we will of course learn how to use
+// and implement these principles.
