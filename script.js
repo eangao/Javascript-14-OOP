@@ -527,3 +527,140 @@
 // And throughout this section,
 // we will of course learn how to use
 // and implement these principles.
+
+////////////////////////////////////////////////////////////////////
+// Constructor Functions and the new Operator
+////////////////////////////////////////////////////////////////////
+// So, we can use constructor functions,
+// to build an object using a function.
+// Now, a constructor function is actually
+// a completely normal function.
+// The only difference between a regular function,
+// and a function that we call constructor function,
+// is that we call a constructor function
+// with the new operator.
+
+//  in OOP there is this convention
+// that constructor functions always start
+// with a capital letter.
+// And so we should always follow that convention too.
+
+// Now an arrow function will actually not work
+// as a function constructor.
+// And that's because it doesn't have its own this keyword
+
+// So only function declarations and function expressions.
+const Person = function (firstName, birthYear) {
+  // And now let's use this knowledge to our advantage.
+  // Because we already know that in the end of this function,
+  // the this keyword will basically be returned.
+  // And so whatever we add to that empty object,
+  // will then be returned from the function.
+  // And that returned object, is gonna be the object,
+  console.log(this);
+
+  //Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  //never do this
+
+  //   You should never create a method
+  // inside of a constructor function.
+  // That's because imagine we were gonna create a hundred
+  // or thousands or even tens of thousands
+  // of person objects using this constructor function.
+
+  // Then what would happen,
+  // is that each of these objects
+  // would carry around this function here.
+  // So if we had a thousand objects,
+  // we would essentially create a thousand copies
+  // of this function.
+  // And so that would be terrible
+  // for the performance of our code.
+
+  // Again, don't do this.
+  // But instead to solve this problem,
+  // we are gonna use prototypes and prototype inheritance
+  //====
+  // this.calcAge = function () {
+  //   console.log(2037 - this.birthYear);
+  // };
+};
+
+// the only difference between a regular function,
+// and a constructor function is that we call the constructor
+// using the new keyword.
+
+// So this new operator here,
+// is actually a very special operator
+// because what it does is to call this function here.
+// So this person function,
+// but it does a whole lot more than just that.
+
+const elmar = new Person('Elmar', 1991);
+
+// So let's see what exactly happens when we call a function
+// with the new operator like this.
+// So behind the scenes, there have been four steps.
+
+// 4 steps
+
+//==
+// 1) New {} object is created
+
+// then afterwards the function is called
+// and in this function call the this keyword will be set
+// to this newly created object.
+///====
+// 2) function is called, this = {}
+
+///====
+// 3) {} linked to prototype
+
+//====
+// 4) function automatically return {}
+// Finally, the last step,
+// is that the object that was created in the beginning
+// is then automatically returned
+// from the constructor function.
+// So the function automatically returns
+// that empty object from the beginning.
+// But actually at this point,
+// the object no longer needs to be empty.
+// And this is actually the trick
+// of making the constructor function work.
+
+console.log(elmar);
+
+const matilda = new Person('Matilda', 2017);
+const jack = new Person('Jack', 1975);
+
+console.log(matilda, jack);
+
+// Now remember from one of the previous lectures,
+// that in classical object oriented programming,
+// an object created from a class is called an instance,
+// right?
+
+// Now we didn't technically create a class here
+// because as we discussed before,
+// JavaScript doesn't really have classes
+
+// in the sense of traditional OOP.
+// However, we did create an object
+// from a constructor function.
+// And actually three objects, right?
+
+// And constructor functions have been used
+// since the beginning of JavaScript
+// to kind of simulate classes.
+// And so therefore we can still say
+// that Jonas here is an instance of person
+// and the same goes for Matilda and for Jack here.
+
+const jay = 'jay';
+
+console.log(elmar instanceof Person);
+console.log(jay instanceof Person);
