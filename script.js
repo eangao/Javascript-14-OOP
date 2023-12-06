@@ -866,3 +866,13 @@ console.log(jonas.hasOwnProperty('species'));
 // So because it's in the prototype property of person.
 // And sometimes, this method here
 // can be quite helpful in certain situations.
+
+//////////////////////////////////////////////////////////
+// Prototypal Inheritance and The Prototype Chain
+//////////////////////////////////////////////////////////
+
+// Let's now consolidate the knowledge
+// that we got over the last two videos
+// in a nice diagram that brings everything together
+
+// see PDF lecture
