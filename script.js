@@ -599,7 +599,7 @@ const Person = function (firstName, birthYear) {
 // So this person function,
 // but it does a whole lot more than just that.
 
-const elmar = new Person('Elmar', 1991);
+const jonas = new Person('Jonas', 1991);
 
 // So let's see what exactly happens when we call a function
 // with the new operator like this.
@@ -632,7 +632,7 @@ const elmar = new Person('Elmar', 1991);
 // And this is actually the trick
 // of making the constructor function work.
 
-console.log(elmar);
+console.log(jonas);
 
 const matilda = new Person('Matilda', 2017);
 const jack = new Person('Jack', 1975);
@@ -662,5 +662,207 @@ console.log(matilda, jack);
 
 const jay = 'jay';
 
-console.log(elmar instanceof Person);
+console.log(jonas instanceof Person);
 console.log(jay instanceof Person);
+
+///////////////////////////////////////////////////////////
+// Prototypes;
+///////////////////////////////////////////////////////////
+
+// But now we're gonna talk about prototypes.
+// So actually, we talked about prototypes,
+// prototypal inheritance and delegation earlier already.
+
+// But how does all of that actually work?
+
+// Well, it can be summarized like this.
+// So, first each and every function in JavaScript
+// automatically has a property called prototype.
+// And that includes, of course, constructor functions.
+// Now every object that's created
+// by a certain constructor function
+// will get access to all the methods and properties
+// that we define on the constructors prototype property.
+console.log(Person.prototype);
+
+// So again, as I was just saying,
+// all the objects that are created
+// through this constructor function here
+// will inherit,
+// so they will get access
+// to all the methods and properties
+// that are defined on this prototype property.
+
+// Because now there exists only one copy
+// of this function.
+// So only one of them exists,
+// but then all of the objects that are created
+// using this constructor function
+// can basically reuse this function
+// on themselves.
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+// So we can now use this method here
+// on the Jonas object
+// even though it is not really
+// on the object itself, right?
+
+// So if we check our Jonas here,
+// then you see that it contains of course
+// the birth year and the first name,
+// but it does not contain the calcAge method.
+// But still, we have access to it
+// because of prototypal inheritance.
+jonas.calcAge();
+matilda.calcAge();
+
+// But how and why does this actually work?
+// Well, it works because any object always
+// has access to the methods and properties
+// from its prototype.
+// And the prototype of Jonas and Matilda
+// is person dot prototype.
+// And we can actually confirm that
+// because each object has a special property
+// called a underscore underscore proto.
+console.log(jonas.__proto__);
+
+// should this prototype property here
+// not be the prototype of person?
+// Well, actually, no.
+// So this is the confusing part.
+// So person dot prototype here
+// is actually not the prototype of person.
+// But instead, it is what's gonna be used
+// as the prototype of all the objects
+// that are created with the person constructor function.
+// So that's a subtle but important difference
+// that you need to keep in mind.
+console.log(jonas.__proto__ === Person.prototype);
+
+// So this confirms one more time
+// that person dot prototype
+// is indeed the prototype of Jonas, matilda and jack.
+console.log(Person.prototype.isPrototypeOf(jonas));
+console.log(Person.prototype.isPrototypeOf(matilda));
+console.log(Person.prototype.isPrototypeOf(jack));
+
+// But person dot prototype
+// is not the prototype of person.
+console.log(Person.prototype.isPrototypeOf(Person));
+
+// So the fact that it's called prototype
+// kind of implies that this is the prototype of person,
+// but as we just learned, it is actually not.
+// Probably shouldn't be called prototype
+// but instead something like prototype of linked objects
+// or something like this.
+//===
+// . protoTypeOfLinkedObjects
+//===
+// So if this makes it easier
+// you can think of the prototype property
+// as prototype of linked objects property.
+// Even though of course it's not called like this,
+// but this would be a more honest name.
+// So take some time to really understand
+// what the prototype of what object actually is here.
+
+//==
+
+// Now, anyway, where does this proto,
+// property here, on the Jonas object
+// actually come from?
+//==
+// jonas.__proto__
+
+// Well, remember the new operator
+// that we talked about before,
+// well, it contains this step number three
+// which links the empty new object
+// to the prototype.
+// //===
+// // 3) {} linked to prototype
+// ///===
+// And so basically, it is this step number three
+// which will create this proto property.
+// So it creates this proto property
+
+// and it sets its value to the prototype property
+// of the function that is being called.
+// And so that's exactly what is written here, right?
+// So again, it sets the proto property
+// on the object to the prototype property
+// of the constructor function.
+
+// And so this is how JavaScript knows internally
+// that the Jonas object is connected
+// to person dot prototype.
+// And in fact, when we check out
+// the Jonas object here
+// we can indeed also see that property in here.
+// So it's also right here,
+// and if we open that up,
+// then you see exactly person dot prototype
+// which contains this calcAge function, all right?
+
+// So I'm spending a lot of time here
+// for you to really understand
+// what this proto property here is
+// and what the prototype of the constructor is
+// and how they are all linked
+// because this is one of the most important things,
+// and also one of the most difficult things
+// to understand in JavaScript.
+
+/////====
+// of hearing the word prototype
+// but I just wanted to quickly show you
+
+// that we can also set properties on the prototype.
+// And so not just methods.
+Person.prototype.species = 'Homo Sapiense';
+console.log(jonas.species, matilda.species);
+
+// so the species on both of them
+// and actually not directly here
+// but indeed they will be here
+// in this prototype.
+
+// And so, we will be able to do Jonas dot species
+// and Matilda dot species.
+// And both of these objects will then inherit
+// so they will get access to this property
+// from the prototype.
+
+// So, you see, in both cases,
+// we indeed get Homo Sapiens.
+// Now however, since when we take a look
+// at these objects,
+
+// well, as we just saw this property is not really
+// directly in the object,
+// so it's not its own property.
+
+// So own properties are only the ones
+// that are declared directly on the object itself.
+// So, not including the inherited properties.
+
+///===
+// And actually in JavaScript, there is a way
+// of checking for that.
+
+console.log(jonas.hasOwnProperty('firstName')); //true
+
+console.log(jonas.hasOwnProperty('species'));
+//false
+// And again, that's because this property
+// is not really inside of the Jonas object.
+// It simply has access to it
+// because of its prototype.
+
+// So because it's in the prototype property of person.
+// And sometimes, this method here
+// can be quite helpful in certain situations.
