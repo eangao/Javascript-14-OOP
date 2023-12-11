@@ -1502,144 +1502,204 @@
 /////////////////////////////////////////////////////////////////////
 // Object.create
 /////////////////////////////////////////////////////////////////////
-//see PDF lecture
+// //see PDF lecture
 
-// So we learned about constructor functions and ES6 classes.
+// // So we learned about constructor functions and ES6 classes.
 
-// But there is actually a third way
-// of implementing prototypal inheritance or delegation,
+// // But there is actually a third way
+// // of implementing prototypal inheritance or delegation,
 
-// as we can also call it.
-// And that third way is
-// to use a function called Object.create,
-// which works in a pretty different way
-// than constructor functions and classes work.
+// // as we can also call it.
+// // And that third way is
+// // to use a function called Object.create,
+// // which works in a pretty different way
+// // than constructor functions and classes work.
 
-// Now, with Object.create,
-// there is still the idea of prototypal inheritance.
+// // Now, with Object.create,
+// // there is still the idea of prototypal inheritance.
 
-// However, there are no prototype properties involved.
-// And also no constructor functions, and no new operator.
+// // However, there are no prototype properties involved.
+// // And also no constructor functions, and no new operator.
 
-// So instead, we can use Object.create
-// to essentially manually set the prototype of an object,
-// to any other object that we want.
-// Okay, so if we can set the prototype to any object,
-// let's actually create an object
-// that we want to be the prototype of all the person objects.
+// // So instead, we can use Object.create
+// // to essentially manually set the prototype of an object,
+// // to any other object that we want.
+// // Okay, so if we can set the prototype to any object,
+// // let's actually create an object
+// // that we want to be the prototype of all the person objects.
 
-const PerosonProto = {
-  calcAge() {
-    console.log(2037 - this.birthYear);
-  },
+// const PerosonProto = {
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   },
 
-  //   and so you see that
-  // this looks a bit like the constructor function
-  // that we created earlier.
-  // However, this has actually nothing
-  // to do with any constructor function,
-  // because we are not using the new operator
-  init(firstName, birthYear) {
-    this.firstName = firstName;
-    this.birthYear = birthYear;
-  },
-};
+//   //   and so you see that
+//   // this looks a bit like the constructor function
+//   // that we created earlier.
+//   // However, this has actually nothing
+//   // to do with any constructor function,
+//   // because we are not using the new operator
+//   init(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   },
+// };
 
-const steven = Object.create(PerosonProto);
-console.log(steven);
-steven.name = 'Steven';
-steven.birthYear = 2002;
-steven.calcAge();
+// const steven = Object.create(PerosonProto);
+// console.log(steven);
+// steven.name = 'Steven';
+// steven.birthYear = 2002;
+// steven.calcAge();
 
-//==
-//see PDF lecture
+// //==
+// //see PDF lecture
 
-// let's make sure that we really understand
-// this big difference.
+// // let's make sure that we really understand
+// // this big difference.
 
-// And so let's take a look at a diagram
-// of what's really going on here.
+// // And so let's take a look at a diagram
+// // of what's really going on here.
 
-// So here at the right side,
-// we have the way it works where de constructor functions,
-// just as we have been doing it up until this point.
-// So when we use the new operator
-// in constructor functions or classes,
-// it automatically sets the prototype
-// of the instances to the constructors,
-// prototype property.
-// So this happens automatically.
-// And so that's nothing new at this point for you.
+// // So here at the right side,
+// // we have the way it works where de constructor functions,
+// // just as we have been doing it up until this point.
+// // So when we use the new operator
+// // in constructor functions or classes,
+// // it automatically sets the prototype
+// // of the instances to the constructors,
+// // prototype property.
+// // So this happens automatically.
+// // And so that's nothing new at this point for you.
 
-// Now, on the other hand, with Object.create,
-// we can set the prototype of objects manually
-// to any object that we want.
-// And in this case,
-// we manually set the prototype
-// of the Steven object to the person proto object.
-// And that's it.
+// // Now, on the other hand, with Object.create,
+// // we can set the prototype of objects manually
+// // to any object that we want.
+// // And in this case,
+// // we manually set the prototype
+// // of the Steven object to the person proto object.
+// // And that's it.
 
-// Now the two objects
-// are effectively linked through the proto property,
-// just like before.
+// // Now the two objects
+// // are effectively linked through the proto property,
+// // just like before.
 
-// So now looking at properties,
-// or methods in a prototype chain,
-// works just like it worked
-// in function constructors, or classes.
-// And so the prototype chain, in fact,
-// looks exactly the same here.
-// The big difference is
+// // So now looking at properties,
+// // or methods in a prototype chain,
+// // works just like it worked
+// // in function constructors, or classes.
+// // And so the prototype chain, in fact,
+// // looks exactly the same here.
+// // The big difference is
 
-// that we didn't need any constructor function,
-// and also no prototype property at all,
-// to achieve the exact same thing.
+// // that we didn't need any constructor function,
+// // and also no prototype property at all,
+// // to achieve the exact same thing.
 
-// So this is actually a bit more straightforward,
-// and a bit more natural.
-// And I guess, that it might also be easier to understand.
+// // So this is actually a bit more straightforward,
+// // and a bit more natural.
+// // And I guess, that it might also be easier to understand.
 
-// However, the reason why I'm showing you
-// this Object.create technique,
-// right at the end, is because in practice,
-// in the real world,
-// this is actually the least used way
-// of implementing prototypal inheritance.
+// // However, the reason why I'm showing you
+// // this Object.create technique,
+// // right at the end, is because in practice,
+// // in the real world,
+// // this is actually the least used way
+// // of implementing prototypal inheritance.
 
-// However, it's still very important
-// to know exactly how Object.create works,
-// because you will still stumble upon
-// this in the real world.
+// // However, it's still very important
+// // to know exactly how Object.create works,
+// // because you will still stumble upon
+// // this in the real world.
 
-// And of course, we can now verify everything I just said,
-console.log(steven.__proto__);
-console.log(steven.__proto__ === PerosonProto);
+// // And of course, we can now verify everything I just said,
+// console.log(steven.__proto__);
+// console.log(steven.__proto__ === PerosonProto);
 
-//a better way
-const sarah = Object.create(PerosonProto);
+// //a better way
+// const sarah = Object.create(PerosonProto);
 
-// So here this keyword will of course,
-// also points to the Sarah object now,
-// but it does so because we explicitly called init on Sarah.
-// So again, this has nothing to do
-// with constructor functions that we saw earlier.
-// And it's also completely different
-// from the constructor method that we have in ES6 classes.
+// // So here this keyword will of course,
+// // also points to the Sarah object now,
+// // but it does so because we explicitly called init on Sarah.
+// // So again, this has nothing to do
+// // with constructor functions that we saw earlier.
+// // And it's also completely different
+// // from the constructor method that we have in ES6 classes.
 
-// This is just a manual way
-// of basically initializing the object.
-// And this here could be any name.
-// And indeed, we could have a method like
-// this in any other object literal.
-// So essentially, this is how Object.create works.
-sarah.init('Sarah', 1979);
-sarah.calcAge();
+// // This is just a manual way
+// // of basically initializing the object.
+// // And this here could be any name.
+// // And indeed, we could have a method like
+// // this in any other object literal.
+// // So essentially, this is how Object.create works.
+// sarah.init('Sarah', 1979);
+// sarah.calcAge();
 
-// So the big takeaway is
-// that Object.create creates a new object,
-// and the prototype of that object
-// will be the object that we passed in.
-// So that's what matters from this video.
-// And that's very important to understand in the future,
-// when we will implement true class inheritance because
-// for that, we are gonna need Object.create.
+// // So the big takeaway is
+// // that Object.create creates a new object,
+// // and the prototype of that object
+// // will be the object that we passed in.
+// // So that's what matters from this video.
+// // And that's very important to understand in the future,
+// // when we will implement true class inheritance because
+// // for that, we are gonna need Object.create.
+
+/////////////////////////////////////////////////////////////////
+// Coding Challenge #2
+/////////////////////////////////////////////////////////////////
+
+// Your tasks:
+
+// 1. Re-create Challenge #1, but this time using an ES6 class (call it 'CarCl')
+
+// 2. Add a getter called 'speedUS' which returns the current speed in mi/h (divide
+// by 1.6)
+
+// 3. Add a setter called 'speedUS' which sets the current speed in mi/h (but
+// converts it to km/h before storing the value, by multiplying the input by 1.6)
+
+// 4. Create a new car and experiment with the 'accelerate' and 'brake'
+// methods, and with the getter and setter.
+
+// Test data:
+
+// § Data car 1: 'Ford' going at 120 km/h
+
+// GOOD LUCK �
+
+// 1
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  // 2
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  //3
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+// 4
+const ford = new CarCl('Ford', 120);
+console.log(ford.speedUS);
+ford.accelerate();
+ford.accelerate();
+ford.brake();
+ford.speedUS = 50;
+console.log(ford);
