@@ -1298,57 +1298,157 @@
 /////////////////////////////////////////////////////////////////
 // Setters and Getters
 /////////////////////////////////////////////////////////////////
-// Let's now talk about a feature
-// that is actually common to all objects in JavaScript,
-// and that's getters and setters.
+// // Let's now talk about a feature
+// // that is actually common to all objects in JavaScript,
+// // and that's getters and setters.
 
-// So every object in JavaScript
-// can have setter and getter properties.
+// // So every object in JavaScript
+// // can have setter and getter properties.
 
-// And we call these special properties assessor properties,
-// while the more normal properties are called data properties.
-// So getters and setters are basically functions
-// that get and set a value so just as the name says,
-// but on the outside they still look like regular properties.
+// // And we call these special properties assessor properties,
+// // while the more normal properties are called data properties.
+// // So getters and setters are basically functions
+// // that get and set a value so just as the name says,
+// // but on the outside they still look like regular properties.
 
-const account = {
-  owner: 'jonas',
-  movements: [200, 530, 120, 300],
+// const account = {
+//   owner: 'jonas',
+//   movements: [200, 530, 120, 300],
 
-  //   And then to transform this into a getter
-  // we simply prepend the keyword get.
-  get latest() {
-    return this.movements.slice(-1).pop();
-  },
+//   //   And then to transform this into a getter
+//   // we simply prepend the keyword get.
+//   get latest() {
+//     return this.movements.slice(-1).pop();
+//   },
 
-  // And any setter method needs to have exactly one parameter.
-  set latest(mov) {
-    this.movements.push(mov);
-  },
+//   // And any setter method needs to have exactly one parameter.
+//   set latest(mov) {
+//     this.movements.push(mov);
+//   },
+// };
+
+// // All right, so we don't call the method,
+// // but instead we write it as if it was just a property.
+// console.log(account.latest);
+// // So this can be very useful
+// // when we want to read something as a property,
+// // but still need to do some calculations before.
+
+// // And so, how do we use the setter now?
+// // So if it was a regular method then we would have to do this.
+// // So account.latest and then call it with the movement,
+// // let's say 50.
+// // But now this is actually like a property and not a method.
+// // And so we can simply set it
+// // just like we set any other property.
+// account.latest = 50;
+// console.log(account.movements);
+
+// // And so in a nutshell this is how getters and setters work
+// // for any regular object in JavaScript.
+
+// // Now however, classes do also have getters and setters,
+// // and they do indeed work in the exact same way.
+
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+
+//   //Methods will be added to prototype property
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.firstName}`);
+//   }
+
+//   get age() {
+//     return 2037 - this.birthYear;
+//   }
+
+//   //set a property that already exists
+//   set fullName(name) {
+//     console.log(name);
+//     if (name.includes(' ')) this._fullName = name;
+//     //to avoid that naming conflict add underscore. However, now when we do this,
+//     // we are actually creating a new variable
+//     else alert(`${name} is not a fullname!`);
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+// }
+
+// const jessica = new PersonCl('Jessica Davis', 1996);
+// jessica.calcAge();
+// console.log(jessica.age);
+
+// // All right, so you see that the getter is indeed
+// // just like any other regular method
+// // that we set on the prototype.
+
+// // And in fact we can also check that out here.
+// // So if we take a look at the prototype of Jessica,
+
+// // So that's a very simple use case of a getter,
+
+// // but setters and getters can actually be very useful
+// // for data validation and as an example,
+// // let's try some validation with the name.
+
+// const walter = new PersonCl('Walter White', 1965);
+
+// // Now we don't need to use getters or setters,
+// // and many people actually don't,
+
+// // but yeah, as I just said sometimes it's just nice
+// // to be able to use these features
+// // and especially when we need like a validation like this
+// // by the time we are creating a new object.
+// // So that's essentially what this setter here does.
+
+/////////////////////////////////////////////////////////////////
+// Static Methods
+/////////////////////////////////////////////////////////////////
+// In this short video,
+// let's quickly gonna talk about statics methods.
+
+// Now a good example to understand
+// what a static method actually is,
+// is the build in Array.from method.
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // to create a static method
+  Person.hey = function () {
+    console.log('Hey there ✋');
+    console.log(this);
+  };
 };
 
-// All right, so we don't call the method,
-// but instead we write it as if it was just a property.
-console.log(account.latest);
-// So this can be very useful
-// when we want to read something as a property,
-// but still need to do some calculations before.
+const jonas = new Person('Jonas', 1991);
+console.log(jonas);
 
-// And so, how do we use the setter now?
-// So if it was a regular method then we would have to do this.
-// So account.latest and then call it with the movement,
-// let's say 50.
-// But now this is actually like a property and not a method.
-// And so we can simply set it
-// just like we set any other property.
-account.latest = 50;
-console.log(account.movements);
+// So whatever object is calling the method,
+// will be the this key word inside of that function.
+// And so here the this key word,
+// is simply that entire constructor function.
+Person.hey();
 
-// And so in a nutshell this is how getters and setters work
-// for any regular object in JavaScript.
+// we cannot say Jonas.hey
+// because it is simply not in the prototype of
+// the Jonas object.
+// So there's noway that the Jonas object could inherit it.
+// jonas.hey();
 
-// Now however, classes do also have getters and setters,
-// and they do indeed work in the exact same way.
+///=====
+// creating static method in a class
 
 class PersonCl {
   constructor(fullName, birthYear) {
@@ -1356,7 +1456,7 @@ class PersonCl {
     this.birthYear = birthYear;
   }
 
-  //Methods will be added to prototype property
+  //instance method
   calcAge() {
     console.log(2037 - this.birthYear);
   }
@@ -1369,44 +1469,32 @@ class PersonCl {
     return 2037 - this.birthYear;
   }
 
-  //set a property that already exists
   set fullName(name) {
     console.log(name);
     if (name.includes(' ')) this._fullName = name;
-    //to avoid that naming conflict add underscore. However, now when we do this,
-    // we are actually creating a new variable
     else alert(`${name} is not a fullname!`);
   }
 
   get fullName() {
     return this._fullName;
   }
+
+  //static method
+  static hey() {
+    console.log('Hey there ✋');
+    console.log(this);
+  }
 }
 
 const jessica = new PersonCl('Jessica Davis', 1996);
-jessica.calcAge();
-console.log(jessica.age);
 
-// All right, so you see that the getter is indeed
-// just like any other regular method
-// that we set on the prototype.
+PersonCl.hey();
+// and this time the this keyword pointing to the entire class
 
-// And in fact we can also check that out here.
-// So if we take a look at the prototype of Jessica,
+//===
+// So keep in mind that these static methods
+// are not available on the instances,
 
-// So that's a very simple use case of a getter,
-
-// but setters and getters can actually be very useful
-// for data validation and as an example,
-// let's try some validation with the name.
-
-const walter = new PersonCl('Walter White', 1965);
-
-// Now we don't need to use getters or setters,
-// and many people actually don't,
-
-// but yeah, as I just said sometimes it's just nice
-// to be able to use these features
-// and especially when we need like a validation like this
-// by the time we are creating a new object.
-// So that's essentially what this setter here does.
+// and sometimes they are still useful to implement
+// some kind of helper function about a class
+// or about a constructor function.
