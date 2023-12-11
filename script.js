@@ -1063,78 +1063,298 @@
 //////////////////////////////////////////////////////////////
 // ES6 Classes
 //////////////////////////////////////////////////////////////
-// So we learned
-// how to implement prototypal inheritance
-// with constructor functions
-// and then manually setting methods
-// on the constructor function's prototype property.
+// // So we learned
+// // how to implement prototypal inheritance
+// // with constructor functions
+// // and then manually setting methods
+// // on the constructor function's prototype property.
 
-// But now it's time to turn our attention to ES6 classes,
-// which essentially allow us to do the exact same thing
-// but using a nicer and more modern syntax.
+// // But now it's time to turn our attention to ES6 classes,
+// // which essentially allow us to do the exact same thing
+// // but using a nicer and more modern syntax.
 
-// Now, as I mentioned earlier,
-// classes in JavaScript do not work like traditional classes
-// in other languages like Java or C++.
-// So instead, classes in JavaScript
-// are just syntactic sugar over what we learned
-// in the last few videos.
+// // Now, as I mentioned earlier,
+// // classes in JavaScript do not work like traditional classes
+// // in other languages like Java or C++.
+// // So instead, classes in JavaScript
+// // are just syntactic sugar over what we learned
+// // in the last few videos.
 
-// So they still implement prototypal inheritance
-// behind the scenes but with a syntax
-// that makes more sense
-// to people coming from other programming languages.
-// And so that was basically the goal
-// of adding classes to JavaScript.
+// // So they still implement prototypal inheritance
+// // behind the scenes but with a syntax
+// // that makes more sense
+// // to people coming from other programming languages.
+// // And so that was basically the goal
+// // of adding classes to JavaScript.
 
-//class expression
-// const PersonCl = Class {}
+// //class expression
+// // const PersonCl = Class {}
 
-//class declaration
-// class PersonCl {}
+// //class declaration
+// // class PersonCl {}
 
-// we also have class expressions.
-// And so that would work like this.
-// So class expression.
-// And class declaration.
-// And so then you can pick whichever you like the most.
+// // we also have class expressions.
+// // And so that would work like this.
+// // So class expression.
+// // And class declaration.
+// // And so then you can pick whichever you like the most.
 
-// classes are just a special type of functions.
-// So although we use the class keyword here,
-// behind the scenes, classes are still functions,
-// and therefore, we have class expressions
-// and class declarations.
+// // classes are just a special type of functions.
+// // So although we use the class keyword here,
+// // behind the scenes, classes are still functions,
+// // and therefore, we have class expressions
+// // and class declarations.
 
-// Now, for some reasons,
-// I prefer the class declaration
+// // Now, for some reasons,
+// // I prefer the class declaration
 
-//class declaration
+// //class declaration
+// class PersonCl {
+//   //   and this constructor actually works
+//   // in a pretty similar way
+//   // as a constructor function,
+//   // so as we studied previously
+
+//   // but this one is actually a method of this class.
+//   // And in fact, it needs to be called constructor.
+//   // So that is the rule.
+
+//   // But just like in constructor functions,
+//   // we pass in arguments basically for the properties
+//   // that we want the object to have
+//   constructor(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   }
+
+//   //   Now, what's important to understand here
+//   // is that all of these methods
+//   // that we write in the class,
+//   // so outside of the constructor
+//   // will be on the prototype of the objects.
+//   // And not on the objects themselves.
+//   // So this is really just like before,
+//   // prototypal inheritance.
+
+//   //Methods will be added to prototype property
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.firstName}`);
+//   }
+// }
+
+// // Now, the act of creating a new object
+// // actually also works in the exact same way as before.
+// // So using the new operator.
+
+// // And so therefore, whenever we create a new object,
+// // so like a new instance using the new operator,
+// // this constructor will automatically be called.
+
+// // to confirm that here.
+// // So as we inspect this Jessica object,
+// // when we look into its prototype,
+// // then we will once again see the calcAge function here.
+// const jessica = new PersonCl('Jessica', 1996);
+// console.log(jessica);
+
+// // to confirm that here.
+// // So as we inspect this Jessica object,
+// // when we look into its prototype,
+// // then we will once again see the calcAge function here.
+// jessica.calcAge();
+
+// console.log(jessica.__proto__ === PersonCl.prototype); //true
+
+// // by also adding a method manually
+// // to the prototype.
+// // So that's gonna work just as fine.
+// // PersonCl.prototype.greet = function () {
+// //   console.log(`Hey ${this.firstName}`);
+// // };
+
+// // And so this is proof one more time
+// // that the class really just hides the true nature
+// // of prototypal inheritance in JavaScript.
+
+// jessica.greet();
+
+// // So this is great for people who are coming
+// // from another language
+// // and have experience with object-oriented programming,
+// // because it's gonna be a bit easier
+// // for these developers
+// // to start writing object-oriented code in JavaScript.
+
+// // Now, if you're one of these developers,
+// // then please make sure
+// // that before just starting to use classes,
+// // you really, truly understand function constructors
+// // and the prototype, and the whole prototype chain logic.
+
+// //1. Classes are NOT hoisted
+// //2. Class are first-class citizens
+// //3. Classes are executed in strict mode
+
+// //1. Classes are NOT hoisted
+
+// // So first, classes are not hoisted.
+// // So first, let's scroll a bit here.
+// // Classes are not hoisted.
+
+// // And so even if they are class declarations.
+// // So functional declarations, remember,
+// // are hoisted, which means we can use them
+// // before they are declared in the code.
+// // But with classes, that doesn't work.
+
+// //2. Class are first-class citizens
+
+// // Second, just like functions,
+// // classes are also first-class citizens.
+// // First-class citizens.
+
+// // And so what that means
+// // is that we can pass them into functions
+// // and also return them from functions.
+// // And as I mentioned before,
+// // that is because classes are really just a special kind
+// // of function behind the scenes.
+
+// //3. Classes are executed in strict mode
+
+// // And third, the body of a class
+// // is always executed in strict mode.
+// // Classes are executed in strict mode.
+// // And so even if we didn't activate it for our entire script,
+// // all the code that is in the class
+// // will be executed in strict mode.
+
+// //====
+// // you might ask if you should use constructor functions,
+// // like we have been doing
+// // or if, instead, it's better to just use classes.
+
+// // And the first remark I want to do here
+// // is that constructor functions
+// // are not like old or deprecated syntax.
+// // So it's 100% fine to keep using them.
+// // So one more time, this is more a question
+// // of personal preference.
+
+// // Now, if you're asking if you should use classes
+// // without understanding prototypal inheritance,
+// // well, then the reply is definitely no.
+
+// // Now, some people actually say
+// // that classes are really bad in general
+// // and that no one should ever be using them
+// // simply because they hide the true nature of JavaScript.
+
+// // But I actually don't agree with that,
+// // and I think it's absolutely okay to use classes
+// // in your code as long as you understand everything
+// // that I just showed you previously
+// // about the prototype and prototypal inheritance.
+// // So you cannot just skip that part
+// // because you want to become an expert
+// // in JavaScript, right?
+
+// // And you also want to feel conformable
+// // while writing your code,
+// // and that essentially means
+// // to understand exactly what your code does.
+// // So that's super important too
+// // and so if you want to be confident,
+// // you need to understand.
+// // And so that's also the whole reason
+// // why all over the course,
+
+// // I'm going into such deep detail
+// // into how everything works in JavaScript.
+// // Now, what I personally like about classes
+// // is that they visually put all the code
+// // that belongs to a certain class,
+// // so like all the data here
+// // and all the behavior,
+// // all into one nice code block like this.
+
+// // With function constructors, in my opinion,
+// // it all looks just like a big mess.
+// // So like this.
+// // I mean, in this case, it's just a little bit of code
+// // but this can get out of hand pretty quick.
+
+// // And in these situations,
+// // I think that this actually looks at least a lot better.
+// // But, of course, that is just my personal opinion.
+// // What matters is that you start thinking about this yourself
+// // and take your own decisions based on what I'm explaining
+// // in these videos.
+
+/////////////////////////////////////////////////////////////////
+// Setters and Getters
+/////////////////////////////////////////////////////////////////
+// Let's now talk about a feature
+// that is actually common to all objects in JavaScript,
+// and that's getters and setters.
+
+// So every object in JavaScript
+// can have setter and getter properties.
+
+// And we call these special properties assessor properties,
+// while the more normal properties are called data properties.
+// So getters and setters are basically functions
+// that get and set a value so just as the name says,
+// but on the outside they still look like regular properties.
+
+const account = {
+  owner: 'jonas',
+  movements: [200, 530, 120, 300],
+
+  //   And then to transform this into a getter
+  // we simply prepend the keyword get.
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  // And any setter method needs to have exactly one parameter.
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+// All right, so we don't call the method,
+// but instead we write it as if it was just a property.
+console.log(account.latest);
+// So this can be very useful
+// when we want to read something as a property,
+// but still need to do some calculations before.
+
+// And so, how do we use the setter now?
+// So if it was a regular method then we would have to do this.
+// So account.latest and then call it with the movement,
+// let's say 50.
+// But now this is actually like a property and not a method.
+// And so we can simply set it
+// just like we set any other property.
+account.latest = 50;
+console.log(account.movements);
+
+// And so in a nutshell this is how getters and setters work
+// for any regular object in JavaScript.
+
+// Now however, classes do also have getters and setters,
+// and they do indeed work in the exact same way.
+
 class PersonCl {
-  //   and this constructor actually works
-  // in a pretty similar way
-  // as a constructor function,
-  // so as we studied previously
-
-  // but this one is actually a method of this class.
-  // And in fact, it needs to be called constructor.
-  // So that is the rule.
-
-  // But just like in constructor functions,
-  // we pass in arguments basically for the properties
-  // that we want the object to have
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
-
-  //   Now, what's important to understand here
-  // is that all of these methods
-  // that we write in the class,
-  // so outside of the constructor
-  // will be on the prototype of the objects.
-  // And not on the objects themselves.
-  // So this is really just like before,
-  // prototypal inheritance.
 
   //Methods will be added to prototype property
   calcAge() {
@@ -1144,153 +1364,49 @@ class PersonCl {
   greet() {
     console.log(`Hey ${this.firstName}`);
   }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  //set a property that already exists
+  set fullName(name) {
+    console.log(name);
+    if (name.includes(' ')) this._fullName = name;
+    //to avoid that naming conflict add underscore. However, now when we do this,
+    // we are actually creating a new variable
+    else alert(`${name} is not a fullname!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
 }
 
-// Now, the act of creating a new object
-// actually also works in the exact same way as before.
-// So using the new operator.
-
-// And so therefore, whenever we create a new object,
-// so like a new instance using the new operator,
-// this constructor will automatically be called.
-
-// to confirm that here.
-// So as we inspect this Jessica object,
-// when we look into its prototype,
-// then we will once again see the calcAge function here.
-const jessica = new PersonCl('Jessica', 1996);
-console.log(jessica);
-
-// to confirm that here.
-// So as we inspect this Jessica object,
-// when we look into its prototype,
-// then we will once again see the calcAge function here.
+const jessica = new PersonCl('Jessica Davis', 1996);
 jessica.calcAge();
+console.log(jessica.age);
 
-console.log(jessica.__proto__ === PersonCl.prototype); //true
+// All right, so you see that the getter is indeed
+// just like any other regular method
+// that we set on the prototype.
 
-// by also adding a method manually
-// to the prototype.
-// So that's gonna work just as fine.
-// PersonCl.prototype.greet = function () {
-//   console.log(`Hey ${this.firstName}`);
-// };
+// And in fact we can also check that out here.
+// So if we take a look at the prototype of Jessica,
 
-// And so this is proof one more time
-// that the class really just hides the true nature
-// of prototypal inheritance in JavaScript.
+// So that's a very simple use case of a getter,
 
-jessica.greet();
+// but setters and getters can actually be very useful
+// for data validation and as an example,
+// let's try some validation with the name.
 
-// So this is great for people who are coming
-// from another language
-// and have experience with object-oriented programming,
-// because it's gonna be a bit easier
-// for these developers
-// to start writing object-oriented code in JavaScript.
+const walter = new PersonCl('Walter White', 1965);
 
-// Now, if you're one of these developers,
-// then please make sure
-// that before just starting to use classes,
-// you really, truly understand function constructors
-// and the prototype, and the whole prototype chain logic.
+// Now we don't need to use getters or setters,
+// and many people actually don't,
 
-//1. Classes are NOT hoisted
-//2. Class are first-class citizens
-//3. Classes are executed in strict mode
-
-//1. Classes are NOT hoisted
-
-// So first, classes are not hoisted.
-// So first, let's scroll a bit here.
-// Classes are not hoisted.
-
-// And so even if they are class declarations.
-// So functional declarations, remember,
-// are hoisted, which means we can use them
-// before they are declared in the code.
-// But with classes, that doesn't work.
-
-//2. Class are first-class citizens
-
-// Second, just like functions,
-// classes are also first-class citizens.
-// First-class citizens.
-
-// And so what that means
-// is that we can pass them into functions
-// and also return them from functions.
-// And as I mentioned before,
-// that is because classes are really just a special kind
-// of function behind the scenes.
-
-//3. Classes are executed in strict mode
-
-// And third, the body of a class
-// is always executed in strict mode.
-// Classes are executed in strict mode.
-// And so even if we didn't activate it for our entire script,
-// all the code that is in the class
-// will be executed in strict mode.
-
-//====
-// you might ask if you should use constructor functions,
-// like we have been doing
-// or if, instead, it's better to just use classes.
-
-// And the first remark I want to do here
-// is that constructor functions
-// are not like old or deprecated syntax.
-// So it's 100% fine to keep using them.
-// So one more time, this is more a question
-// of personal preference.
-
-// Now, if you're asking if you should use classes
-// without understanding prototypal inheritance,
-// well, then the reply is definitely no.
-
-// Now, some people actually say
-// that classes are really bad in general
-// and that no one should ever be using them
-// simply because they hide the true nature of JavaScript.
-
-// But I actually don't agree with that,
-// and I think it's absolutely okay to use classes
-// in your code as long as you understand everything
-// that I just showed you previously
-// about the prototype and prototypal inheritance.
-// So you cannot just skip that part
-// because you want to become an expert
-// in JavaScript, right?
-
-// And you also want to feel conformable
-// while writing your code,
-// and that essentially means
-// to understand exactly what your code does.
-// So that's super important too
-// and so if you want to be confident,
-// you need to understand.
-// And so that's also the whole reason
-// why all over the course,
-
-// I'm going into such deep detail
-// into how everything works in JavaScript.
-// Now, what I personally like about classes
-// is that they visually put all the code
-// that belongs to a certain class,
-// so like all the data here
-// and all the behavior,
-// all into one nice code block like this.
-
-// With function constructors, in my opinion,
-// it all looks just like a big mess.
-// So like this.
-// I mean, in this case, it's just a little bit of code
-// but this can get out of hand pretty quick.
-
-// And in these situations,
-// I think that this actually looks at least a lot better.
-// But, of course, that is just my personal opinion.
-// What matters is that you start thinking about this yourself
-// and take your own decisions based on what I'm explaining
-// in these videos.
+// but yeah, as I just said sometimes it's just nice
+// to be able to use these features
+// and especially when we need like a validation like this
+// by the time we are creating a new object.
+// So that's essentially what this setter here does.
