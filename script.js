@@ -563,8 +563,6 @@ const Person = function (firstName, birthYear) {
   this.firstName = firstName;
   this.birthYear = birthYear;
 
-  //never do this
-
   //   You should never create a method
   // inside of a constructor function.
   // That's because imagine we were gonna create a hundred
@@ -584,6 +582,7 @@ const Person = function (firstName, birthYear) {
   // But instead to solve this problem,
   // we are gonna use prototypes and prototype inheritance
   //====
+  //never do this
   // this.calcAge = function () {
   //   console.log(2037 - this.birthYear);
   // };
@@ -617,7 +616,7 @@ const jonas = new Person('Jonas', 1991);
 // 2) function is called, this = {}
 
 ///====
-// 3) {} linked to prototype
+// 3) {} linked to prototype - __proto__
 
 //====
 // 4) function automatically return {}
@@ -876,3 +875,187 @@ console.log(jonas.hasOwnProperty('species'));
 // in a nice diagram that brings everything together
 
 // see PDF lecture
+
+//////////////////////////////////////////////////////////
+// Prototypal Inheritance on Built-In Objects
+//////////////////////////////////////////////////////////
+console.log(jonas.__proto__);
+
+//Object.prototype (top of prototype chain)
+console.log(jonas.__proto__.__proto__);
+console.log(jonas.__proto__.__proto__.__proto__); //null
+
+console.log(Person.prototype.constructor);
+
+// So each array
+// does of course not contain all of these methods
+// but instead, each array will inherit these methods
+// from its prototype.
+const arr = [3, 6, 4, 5, 6, 9, 9]; // same as -> new Array === []
+console.log(arr.__proto__);
+
+// So one more time, the prototype property
+// of the constructor is gonna be the prototype
+// of all the objects created by that constructor.
+console.log(arr.__proto__ === Array.prototype);
+
+// that is simply because the prototype itself here
+// is an object.
+// And so any object has access to all of these methods.
+console.log(arr.__proto__.__proto__);
+
+// mdn docs
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
+// So one more time you can see
+// that the prototypal inheritance is really a mechanism
+// for reusing code.
+// So all of these built-in methods here
+// have to exist only once somewhere in the JavaScript engine
+// and then all the arrays in our code
+// get access to the functions
+// through the prototype chain and prototypal inheritance.
+
+// So we know at this point,
+// that any array inherits all their methods
+// from it's a prototype.
+// And therefore we can use that knowledge
+// to extend the functionality of arrays even further.
+
+// So let's say that we wanted to create a method
+// which returns all the unique elements of an array.
+
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique());
+
+// So just to recap, we added a new method
+// to the prototype property of the array constructor.
+// And so therefore now all arrays will inherit this method.
+// And so we can then call that method
+// on any array that we want.
+
+// However, what we just did here.
+// So extending the prototype
+// of a built-in object is generally not a good idea.
+
+// I mean if you're working just on a small project on your own
+// then I guess you could do this,
+// but really don't get into the habit of doing this
+
+// for multiple reasons.
+
+// The first reason is that the next version of JavaScript
+// might add a method with the same name
+// that we are adding, for example this one here,
+// but it might work in a different way.
+// And so your code will then use that new method
+// which, remember, works differently.
+// And then that will probably break your code.
+
+// And the second reason why you shouldn't do this
+// is because when you work on a team of developers,
+// then this is really gonna be a bad idea
+// because if multiple developers implement the same method
+// with a different name
+// then that's just going to create so many bugs
+
+// that it's just not worth doing this.
+// So it's just a nice and fun experiment
+// but in practice, you should probably not do it.
+
+///====
+// Now for a little bit of fun to finish this video.
+// Let's take a look
+// at some more built-in objects here in the console.
+
+// and we already know that all the DOM elements
+// are behind the scenes objects.
+const h1 = document.querySelector('h1');
+
+// So let's try a console.dir(h1)
+console.dir(h1);
+// And so now we get the actual object.
+
+console.dir(x => x + 1);
+
+// And finally, let's just also
+// console.dir some random function.
+// So the function doesn't matter.
+
+// I just want to be able to look at the function.
+// Okay.
+
+// And so, as I mentioned a bit earlier in this video
+// the function itself is also an object.
+// And so therefore it also has a prototype.
+// And in this case to prototype will then contain the methods
+// that we have used previously on functions.
+// So that's apply, bind and call, remember.
+// And so once again
+// this is the reason why we can actually
+// call methods on functions.
+// It's because they are objects and objects have prototypes.
+// And in this case, this function prototype.
+
+//////////////////////////////////////////////////////////////////////////
+//Coding Challenge #1
+//////////////////////////////////////////////////////////////////////////
+
+// Your tasks:
+
+// 1. Use a constructor function to implement a 'Car'. A car has a 'make' and a
+// 'speed' property. The 'speed' property is the current speed of the car in
+// km/h
+
+// 2. Implement an 'accelerate' method that will increase the car's speed by 10,
+// and log the new speed to the console
+
+// 3. Implement a 'brake' method that will decrease the car's speed by 5, and log
+// the new speed to the console
+
+// 4. Create 2 'Car' objects and experiment with calling 'accelerate' and
+// 'brake' multiple times on each of them
+
+// Test data:
+// § Data car 1: 'BMW' going at 120 km/h
+// § Data car 2: 'Mercedes' going at 95 km/h
+
+// GOOD LUCK �
+
+// 1
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+// 2
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+// 3
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+// 4
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
+
+mercedes.accelerate();
+mercedes.accelerate();
+mercedes.brake();
+mercedes.accelerate();
+mercedes.accelerate();
+mercedes.brake();
+mercedes.accelerate();
