@@ -1414,87 +1414,232 @@
 /////////////////////////////////////////////////////////////////
 // Static Methods
 /////////////////////////////////////////////////////////////////
-// In this short video,
-// let's quickly gonna talk about statics methods.
+// // In this short video,
+// // let's quickly gonna talk about statics methods.
 
-// Now a good example to understand
-// what a static method actually is,
-// is the build in Array.from method.
+// // Now a good example to understand
+// // what a static method actually is,
+// // is the build in Array.from method.
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
 
-  // to create a static method
-  Person.hey = function () {
-    console.log('Hey there ✋');
-    console.log(this);
-  };
-};
+//   // to create a static method
+//   Person.hey = function () {
+//     console.log('Hey there ✋');
+//     console.log(this);
+//   };
+// };
 
-const jonas = new Person('Jonas', 1991);
-console.log(jonas);
+// const jonas = new Person('Jonas', 1991);
+// console.log(jonas);
 
-// So whatever object is calling the method,
-// will be the this key word inside of that function.
-// And so here the this key word,
-// is simply that entire constructor function.
-Person.hey();
+// // So whatever object is calling the method,
+// // will be the this key word inside of that function.
+// // And so here the this key word,
+// // is simply that entire constructor function.
+// Person.hey();
 
-// we cannot say Jonas.hey
-// because it is simply not in the prototype of
-// the Jonas object.
-// So there's noway that the Jonas object could inherit it.
-// jonas.hey();
+// // we cannot say Jonas.hey
+// // because it is simply not in the prototype of
+// // the Jonas object.
+// // So there's noway that the Jonas object could inherit it.
+// // jonas.hey();
 
-///=====
-// creating static method in a class
+// ///=====
+// // creating static method in a class
 
-class PersonCl {
-  constructor(fullName, birthYear) {
-    this.fullName = fullName;
-    this.birthYear = birthYear;
-  }
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
 
-  //instance method
+//   //instance method
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.firstName}`);
+//   }
+
+//   get age() {
+//     return 2037 - this.birthYear;
+//   }
+
+//   set fullName(name) {
+//     console.log(name);
+//     if (name.includes(' ')) this._fullName = name;
+//     else alert(`${name} is not a fullname!`);
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   //static method
+//   static hey() {
+//     console.log('Hey there ✋');
+//     console.log(this);
+//   }
+// }
+
+// const jessica = new PersonCl('Jessica Davis', 1996);
+
+// PersonCl.hey();
+// // and this time the this keyword pointing to the entire class
+
+// //===
+// // So keep in mind that these static methods
+// // are not available on the instances,
+
+// // and sometimes they are still useful to implement
+// // some kind of helper function about a class
+// // or about a constructor function.
+
+/////////////////////////////////////////////////////////////////////
+// Object.create
+/////////////////////////////////////////////////////////////////////
+//see PDF lecture
+
+// So we learned about constructor functions and ES6 classes.
+
+// But there is actually a third way
+// of implementing prototypal inheritance or delegation,
+
+// as we can also call it.
+// And that third way is
+// to use a function called Object.create,
+// which works in a pretty different way
+// than constructor functions and classes work.
+
+// Now, with Object.create,
+// there is still the idea of prototypal inheritance.
+
+// However, there are no prototype properties involved.
+// And also no constructor functions, and no new operator.
+
+// So instead, we can use Object.create
+// to essentially manually set the prototype of an object,
+// to any other object that we want.
+// Okay, so if we can set the prototype to any object,
+// let's actually create an object
+// that we want to be the prototype of all the person objects.
+
+const PerosonProto = {
   calcAge() {
     console.log(2037 - this.birthYear);
-  }
+  },
 
-  greet() {
-    console.log(`Hey ${this.firstName}`);
-  }
+  //   and so you see that
+  // this looks a bit like the constructor function
+  // that we created earlier.
+  // However, this has actually nothing
+  // to do with any constructor function,
+  // because we are not using the new operator
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
 
-  get age() {
-    return 2037 - this.birthYear;
-  }
+const steven = Object.create(PerosonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge();
 
-  set fullName(name) {
-    console.log(name);
-    if (name.includes(' ')) this._fullName = name;
-    else alert(`${name} is not a fullname!`);
-  }
+//==
+//see PDF lecture
 
-  get fullName() {
-    return this._fullName;
-  }
+// let's make sure that we really understand
+// this big difference.
 
-  //static method
-  static hey() {
-    console.log('Hey there ✋');
-    console.log(this);
-  }
-}
+// And so let's take a look at a diagram
+// of what's really going on here.
 
-const jessica = new PersonCl('Jessica Davis', 1996);
+// So here at the right side,
+// we have the way it works where de constructor functions,
+// just as we have been doing it up until this point.
+// So when we use the new operator
+// in constructor functions or classes,
+// it automatically sets the prototype
+// of the instances to the constructors,
+// prototype property.
+// So this happens automatically.
+// And so that's nothing new at this point for you.
 
-PersonCl.hey();
-// and this time the this keyword pointing to the entire class
+// Now, on the other hand, with Object.create,
+// we can set the prototype of objects manually
+// to any object that we want.
+// And in this case,
+// we manually set the prototype
+// of the Steven object to the person proto object.
+// And that's it.
 
-//===
-// So keep in mind that these static methods
-// are not available on the instances,
+// Now the two objects
+// are effectively linked through the proto property,
+// just like before.
 
-// and sometimes they are still useful to implement
-// some kind of helper function about a class
-// or about a constructor function.
+// So now looking at properties,
+// or methods in a prototype chain,
+// works just like it worked
+// in function constructors, or classes.
+// And so the prototype chain, in fact,
+// looks exactly the same here.
+// The big difference is
+
+// that we didn't need any constructor function,
+// and also no prototype property at all,
+// to achieve the exact same thing.
+
+// So this is actually a bit more straightforward,
+// and a bit more natural.
+// And I guess, that it might also be easier to understand.
+
+// However, the reason why I'm showing you
+// this Object.create technique,
+// right at the end, is because in practice,
+// in the real world,
+// this is actually the least used way
+// of implementing prototypal inheritance.
+
+// However, it's still very important
+// to know exactly how Object.create works,
+// because you will still stumble upon
+// this in the real world.
+
+// And of course, we can now verify everything I just said,
+console.log(steven.__proto__);
+console.log(steven.__proto__ === PerosonProto);
+
+//a better way
+const sarah = Object.create(PerosonProto);
+
+// So here this keyword will of course,
+// also points to the Sarah object now,
+// but it does so because we explicitly called init on Sarah.
+// So again, this has nothing to do
+// with constructor functions that we saw earlier.
+// And it's also completely different
+// from the constructor method that we have in ES6 classes.
+
+// This is just a manual way
+// of basically initializing the object.
+// And this here could be any name.
+// And indeed, we could have a method like
+// this in any other object literal.
+// So essentially, this is how Object.create works.
+sarah.init('Sarah', 1979);
+sarah.calcAge();
+
+// So the big takeaway is
+// that Object.create creates a new object,
+// and the prototype of that object
+// will be the object that we passed in.
+// So that's what matters from this video.
+// And that's very important to understand in the future,
+// when we will implement true class inheritance because
+// for that, we are gonna need Object.create.
