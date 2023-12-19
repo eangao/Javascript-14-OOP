@@ -2148,111 +2148,205 @@
 // Inheritance Between "Classes": ES6 Classes
 ///////////////////////////////////////////////////////////////////////////
 
-//class declaration
-class PersonCl {
-  constructor(fullName, birthYear) {
-    this.fullName = fullName;
-    this.birthYear = birthYear;
-  }
+// //class declaration
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
 
-  //Instance Method
+//   //Instance Method
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.firstName}`);
+//   }
+
+//   get age() {
+//     return 2037 - this.birthYear;
+//   }
+
+//   set fullName(name) {
+//     if (name.includes(' ')) this._fullName = name;
+//     else alert(`${name} is not a full name!`);
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   // statid method
+//   static hey() {
+//     console.log('Hey there 🤚');
+//   }
+// }
+
+// // So to implement inheritance between ES6 classes,
+// // we only need two ingredients.
+// // We need the extent keywords and we need the super function.
+// class StudentCl extends PersonCl {
+//   constructor(fullName, birthYear, course) {
+//     //     What we do instead is to call the super function.
+//     // And so super is basically the constructor function
+//     // of the parent class.
+//     // So the idea is still similar to what we did
+//     // in the constructor function,
+//     // but here it all happens automatically.
+//     // We don't need to specify the name of the parent class again,
+//     // because that already happened up here.
+//     // So here now all we do is to pass in
+//     // the arguments for the constructor of the parent class.
+//     // And so that's these two, because that's exactly
+//     // the parameters that are also specified here
+//     // in the parent's constructor.
+
+//     // Always needs to happen first
+//     super(fullName, birthYear);
+
+//     //     And that's because this call to the super function
+//     // is responsible for creating
+//     // the disc keyword in this subclass.
+//     // And so therefore, without doing this,
+//     // we wouldn't be able to access the this keyword to do this.
+//     // So always first the call to the super
+//     // so to the parents class constructor.
+//     // And from there, we will then be able
+//     // to access the this keyword.
+//     // Now, of course we could actually
+//     // have no other properties here at all.
+//     // So this is not necessary. I mean, it's not mandatory.
+//     this.course = course;
+//   }
+
+//   introduce() {
+//     console.log(`My name is ${this.fullName} and I study ${this.course}`);
+//   }
+
+//   calcAge() {
+//     console.log(
+//       `I'm ${
+//         2037 - this.birthYear
+//       } years old, but as a student I feel more like ${
+//         2037 - this.birthYear + 10
+//       }`
+//     );
+//   }
+// }
+
+// const martha = new StudentCl('Martha Jones', 2012, 'Computer Science');
+// martha.introduce();
+// martha.calcAge();
+
+// // Now, to finish this part of inheritance between classes.
+// // Let me just say that this mechanism of inheritance
+// // that we explored here can actually be very problematic
+// // and dangerous in the real world
+// // when we are designing software.
+
+// // However, that's going to be a
+// // topic for another day.
+// // And we're going to talk a little bit about this when we talk
+// // about functional programming, which as I've mentioned,
+// // a couple of times is kind of the alternative
+// // to object oriented programming.
+// // Anyway, next up,
+
+// // let's do the same thing with object.create.
+// // So that's the third way of implementing object
+// // oriented programming in JavaScript.
+
+//////////////////////////////////////////////////////////////////
+// Inheritance Between "Classes": Object.create
+//////////////////////////////////////////////////////////////////
+const PersonProto = {
   calcAge() {
     console.log(2037 - this.birthYear);
-  }
+  },
 
-  greet() {
-    console.log(`Hey ${this.firstName}`);
-  }
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
 
-  get age() {
-    return 2037 - this.birthYear;
-  }
+const steven = Object.create(PersonProto);
 
-  set fullName(name) {
-    if (name.includes(' ')) this._fullName = name;
-    else alert(`${name} is not a full name!`);
-  }
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
 
-  get fullName() {
-    return this._fullName;
-  }
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
 
-  // statid method
-  static hey() {
-    console.log('Hey there 🤚');
-  }
-}
+const jay = Object.create(StudentProto);
 
-// So to implement inheritance between ES6 classes,
-// we only need two ingredients.
-// We need the extent keywords and we need the super function.
-class StudentCl extends PersonCl {
-  constructor(fullName, birthYear, course) {
-    //     What we do instead is to call the super function.
-    // And so super is basically the constructor function
-    // of the parent class.
-    // So the idea is still similar to what we did
-    // in the constructor function,
-    // but here it all happens automatically.
-    // We don't need to specify the name of the parent class again,
-    // because that already happened up here.
-    // So here now all we do is to pass in
-    // the arguments for the constructor of the parent class.
-    // And so that's these two, because that's exactly
-    // the parameters that are also specified here
-    // in the parent's constructor.
+// And so now the StudentProto object
+// that we just created earlier,
+// is now the prototype off the jay object.
 
-    // Always needs to happen first
-    super(fullName, birthYear);
+// So again, the StudentProto object
+// is now the prototype of jay,
+// and the PersonProto object is in turn
+// the prototype of StudentProto.
 
-    //     And that's because this call to the super function
-    // is responsible for creating
-    // the disc keyword in this subclass.
-    // And so therefore, without doing this,
-    // we wouldn't be able to access the this keyword to do this.
-    // So always first the call to the super
-    // so to the parents class constructor.
-    // And from there, we will then be able
-    // to access the this keyword.
-    // Now, of course we could actually
-    // have no other properties here at all.
-    // So this is not necessary. I mean, it's not mandatory.
-    this.course = course;
-  }
+// And so therefore, PersonProto is a parent prototype of jay,
+// which means that it's in its prototype chain.
 
-  introduce() {
-    console.log(`My name is ${this.fullName} and I study ${this.course}`);
-  }
+// Whoa, but that once again sounded a bit confusing.
+// And so let's make sure that we really understand
+// this by looking at a nice diagram again.
 
-  calcAge() {
-    console.log(
-      `I'm ${
-        2037 - this.birthYear
-      } years old, but as a student I feel more like ${
-        2037 - this.birthYear + 10
-      }`
-    );
-  }
-}
+// SEE PDF LECTURE
 
-const martha = new StudentCl('Martha Jones', 2012, 'Computer Science');
-martha.introduce();
-martha.calcAge();
+jay.init('Jay', 2010, 'Computer Science');
+jay.introduce();
+jay.calcAge();
 
-// Now, to finish this part of inheritance between classes.
-// Let me just say that this mechanism of inheritance
-// that we explored here can actually be very problematic
-// and dangerous in the real world
-// when we are designing software.
+// So in this version, we don't even worry
+// about constructors anymore,
+// and also not about prototype properties,
+// and not about the new operator.
 
-// However, that's going to be a
-// topic for another day.
-// And we're going to talk a little bit about this when we talk
-// about functional programming, which as I've mentioned,
-// a couple of times is kind of the alternative
-// to object oriented programming.
-// Anyway, next up,
+// So it's really just objects linked to other objects.
+// And it's all really simple and beautiful,
+// if you ask me.
 
-// let's do the same thing with object.create.
-// So that's the third way of implementing object
-// oriented programming in JavaScript.
+// And in fact, some people think that this pattern
+// is a lot better than basically trying
+// to fake classes in JavaScript,
+// because faking classes in the way
+// that they exist in other languages like Java or C plus plus
+// is exactly what we do by using constructor functions,
+// and even ES6 classes.
+
+// But here, in this technique
+// that I just showed you with Object.create,
+// we are, in fact, not faking classes.
+
+// All we are doing is simply linking objects together,
+// where some objects then serve
+// as the prototype of other objects.
+
+// And personally, I wouldn't mind if this
+// was the only way of doing OOP in JavaScript,
+// but as I mentioned earlier,
+// ES6 classes and constructor functions
+// are actually way more used in the real world.
+
+// But in any case, it's still super important and valuable
+// that you learned all of these three techniques now,
+// because you will see them all in the real world still.
+
+// And this also allows you to think about this on your own
+// and choose the style that you like the best,
+// but again, in the real world,
+// and especially in modern JavaScript,
+// you will mostly see ES6 classes being used now.
+
+// And so, since I want to prepare you for the real world,
+// I will start using classes from this point on.
