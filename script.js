@@ -1708,309 +1708,375 @@
 // Inheritance Between "Classes": Constructor Functions
 ///////////////////////////////////////////////////////////////////
 
-//SEE PDF LECTURE
+// //SEE PDF LECTURE
 
-// But now it's time to turn our attention
-// to more real inheritance.
-// So in the way that we learned in the very first lecture
-// of the section.
+// // But now it's time to turn our attention
+// // to more real inheritance.
+// // So in the way that we learned in the very first lecture
+// // of the section.
 
-// So what I'm talking about is real inheritance
-// between classes
-// and not just prototypal inheritance between instances
-// and a prototype property like we've been doing so far.
+// // So what I'm talking about is real inheritance
+// // between classes
+// // and not just prototypal inheritance between instances
+// // and a prototype property like we've been doing so far.
 
-// And I'm using class terminology here
-// because this simply makes it easier to understand
-// what we're gonna do.
-// But of course, you already know that real classes
-// do not exist in JavaScript.
+// // And I'm using class terminology here
+// // because this simply makes it easier to understand
+// // what we're gonna do.
+// // But of course, you already know that real classes
+// // do not exist in JavaScript.
 
-// Now, just like before we will start by implementing
-// this using constructor functions.
-// So in this lecture,
-// we will inherit between classes using constructor functions,
-// and this is gonna be a bit of work,
-// but it will allow you to understand exactly
-// how we set up the prototype chain in order
-// to allow inheritance between the prototype properties
-// of two different constructor functions.
+// // Now, just like before we will start by implementing
+// // this using constructor functions.
+// // So in this lecture,
+// // we will inherit between classes using constructor functions,
+// // and this is gonna be a bit of work,
+// // but it will allow you to understand exactly
+// // how we set up the prototype chain in order
+// // to allow inheritance between the prototype properties
+// // of two different constructor functions.
 
-// Then in the next lecture,
-// we're gonna do the same thing using ES6 classes,
-// which as you would expect is a lot easier.
+// // Then in the next lecture,
+// // we're gonna do the same thing using ES6 classes,
+// // which as you would expect is a lot easier.
 
-// And finally, of course,
-// we will go back to using object dot create as well.
+// // And finally, of course,
+// // we will go back to using object dot create as well.
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
-};
-
-Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear);
-};
-
-// So far so good.
-// However, there is one thing that we can
-// and should improve here in our student constructor function.
-// So right now this part of the code here
-// is basically a simple copy
-// of the person function constructor.
-
-// So of this one that we want
-// to be the parent class, right?
-// And as you know, having duplicate code is never a good idea.
-
-// First because it violates
-// the "don't repeat yourself" principle,
-
-// but second and even worse in this case
-// is that imagine that the implementation of person here
-// changes in the future,
-// then that change will not be reflected in the student.
-// So instead of having this duplicate code here,
-// let's simply call the person function.
-
-// const Student = function (firstName, birthYear, course) {
+// const Person = function (firstName, birthYear) {
 //   this.firstName = firstName;
 //   this.birthYear = birthYear;
+// };
+
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
+
+// // So far so good.
+// // However, there is one thing that we can
+// // and should improve here in our student constructor function.
+// // So right now this part of the code here
+// // is basically a simple copy
+// // of the person function constructor.
+
+// // So of this one that we want
+// // to be the parent class, right?
+// // And as you know, having duplicate code is never a good idea.
+
+// // First because it violates
+// // the "don't repeat yourself" principle,
+
+// // but second and even worse in this case
+// // is that imagine that the implementation of person here
+// // changes in the future,
+// // then that change will not be reflected in the student.
+// // So instead of having this duplicate code here,
+// // let's simply call the person function.
+
+// // const Student = function (firstName, birthYear, course) {
+// //   this.firstName = firstName;
+// //   this.birthYear = birthYear;
+// //   this.course = course;
+// // };
+
+// const Student = function (firstName, birthYear, course) {
+//   // Person(firstName, birthYear);
+//   //   And then I'm gonna to explain to you why this doesn't work.
+//   // So the problem here is that we are now actually calling
+//   // this person constructor function as a regular function call.
+//   // So we are not using this new operator
+//   // to call this person function constructor.
+//   // And so therefore this function call here
+//   // is simply a regular function call.
+
+//   //   So instead of simply calling the person function here,
+//   // we need to manually set the this keyword as well.
+//   // So do you remember how we can call a function?
+//   // And at the same time set the this keywords
+//   // inside that function?
+//   // Well, we can simply use the call method.
+//   // So the call method will indeed call this function,
+//   // but we will be able to specify the this keywords
+//   // here as the first argument in this function.
+//   // And so in this case, we want the this Keyword
+//   // in this function to simply be the this keyword
+//   // inside this function here, right?
+//   // Because as you know the this Keyword is gonna be
+//   // in the beginning,
+//   // this empty object that is being created by the new operator.
+//   // And so it is on that new object
+//   // where we want to set the first name
+//   // and the birth year property.
+//   // Right?
+//   // So if we check this now, then it is back to working.
+//   // And so this is a much better and more robust solution.
+//   Person.call(this, firstName, birthYear);
+
 //   this.course = course;
 // };
 
-const Student = function (firstName, birthYear, course) {
-  // Person(firstName, birthYear);
-  //   And then I'm gonna to explain to you why this doesn't work.
-  // So the problem here is that we are now actually calling
-  // this person constructor function as a regular function call.
-  // So we are not using this new operator
-  // to call this person function constructor.
-  // And so therefore this function call here
-  // is simply a regular function call.
+// // SEE PDF Lecture
 
-  //   So instead of simply calling the person function here,
-  // we need to manually set the this keyword as well.
-  // So do you remember how we can call a function?
-  // And at the same time set the this keywords
-  // inside that function?
-  // Well, we can simply use the call method.
-  // So the call method will indeed call this function,
-  // but we will be able to specify the this keywords
-  // here as the first argument in this function.
-  // And so in this case, we want the this Keyword
-  // in this function to simply be the this keyword
-  // inside this function here, right?
-  // Because as you know the this Keyword is gonna be
-  // in the beginning,
-  // this empty object that is being created by the new operator.
-  // And so it is on that new object
-  // where we want to set the first name
-  // and the birth year property.
-  // Right?
-  // So if we check this now, then it is back to working.
-  // And so this is a much better and more robust solution.
-  Person.call(this, firstName, birthYear);
+// // So far, this is what we have built.
+// // So it's simply the student constructor function
+// // and its prototype property.
+// // And then the mike object linked to its prototype.
+// // And that prototype is of course
+// // the constructor functions prototype property.
+// // Now this link between instance and prototype
+// // has been made automatically by creating the mike object
+// // with the new operator.
+// // So all of this is what we had already learned.
+// // So this is nothing new at this point
+// // Right?
+// // Now a student is also a person.
+// // And so we want student and person to be connected like this.
+// // So we really want the student class
+// // to be the child class and inherit from the person class,
+// // which will then function as the parent class.
+// // So this way, all instances of student
+// // could also get access to methods
+// // from the person's prototype property,
+// // like the calcAge method through the prototype chain.
+// // And that's the whole idea of inheritance.
+// // Its the child classes can share behavior
+// // from their parent classes.
+// // So looking at this diagram, basically what we want to do
+// // is to make person dot prototype,
+// // the prototype of student dot prototype.
+// // Or in other words,
+// // we want to set the underscore protal property
+// // of student dot prototype to person dot prototype.
+// // And if this sounds confusing,
+// // then please just pause the video here for a minute
+// // and keep looking at this diagram for some more time.
+// // So that's why I created it.
+// // Okay?
 
-  this.course = course;
+// // Now, anyway,we are gonna have to create this connection manually.
+// // And to do this,
+// // so to link these two prototype objects,
+// // we are gonna use object dot create
+// // because defining prototypes manually
+// // is exactly what object dot create does.
+
+// //Linking prototypes
+// Student.prototype = Object.create(Person.prototype);
+// // And with this,
+// // the student dot prototype object is now an object that
+// // inherits from person dot prototype.
+// // Now we have to create this connection here
+// // before we add any more methods
+// // to the prototype object of student.
+// // And that's because object dot create,
+// // will return an empty object.
+// // And so at this point, student dot prototype is empty.
+// // And so then onto that empty object,
+// // we can add methods like this one.
+// // But if we did it the other way around
+// // so if this was after we created this method here,
+// // then object dot create
+// // would basically overwrite these methods
+// // that we had already added
+// // to the prototype object of student.
+
+// //==
+// // Now you might be wondering why we even needed
+// // to use object dot create.
+// // So why didn't we just do this?
+
+// // Student.prototype = Person.prototype;
+
+// // See PDF Lecture
+// // but in fact, this doesn't work at all.
+// // And let me actually show you why that is.
+// // So if we do student dot prototype
+// // equal to person dot prototype,
+// // then we will not end up with a prototype chain that we need.
+// // Instead, we would end up with this,
+// // which is a completely wrong prototype chain.
+// // And that's because here we're actually saying
+// // that the student's prototype property
+// // and a person's prototype property
+// // should be the exact same object.
+// // But in fact that's just not what we want.
+// // What we do want is the person's prototype object
+// // to be the prototype of student dot prototype.
+// // So we want to inherit from it,
+// // but it should not be the exact same object.
+// // And that's why we actually needed object dot create.
+// //==
+
+// Student.prototype.introduce = function () {
+//   console.log(`My name is ${this.firstName} and I study ${this.course}`);
+// };
+
+// const mike = new Student('Mike', 2020, 'Computer Science');
+// console.log(mike);
+
+// mike.introduce();
+
+// mike.calcAge();
+
+// // SEE PDF LECTURE
+// // And so let's actually now go analyze
+// // what exactly happened here.
+// // And we already know that this worked
+// // because of the prototype chain,
+// // but let's see exactly how.
+
+// // So when we do mike dot calcAge,
+// // we are effectively doing a property or a method lookup.
+// // So that is JavaScript
+// // trying to find the requested property or method.
+
+// // Now, in this case, as we know,
+// // the calcAge method is of course
+// // not directly on the mike object.
+// // It's also not in mike's prototype.
+// // That's where we defined the introduced method,
+// // but not calcAge.
+// // Right?
+
+// // So just like before,
+// // whenever we try to access a method,
+// // that's not on the object's prototype,
+// // then JavaScript, will look up even further
+// // in the prototype chain and see if it can find a method
+// // so in the parent prototype.
+
+// // And that's exactly what happens here.
+// // So JavaScript will finally find the calcAge
+// // in person dot prototype,
+// // which is exactly where we defined it.
+
+// // And that's the whole reason
+// // why we set up the prototype chain like this
+// // so that the mike object can inherit whatever methods
+// // are in its parent class, basically.
+
+// // So in summary,
+// // we are now able to call a method
+// // that is on a person's prototype property,
+// // on a student object, and it still works.
+// // So that's the power of inheritance.
+
+// // And since we're already here,
+// // let's also quickly complete the prototype chain.
+// // So just like before object dot prototype will sit on
+// // top of the prototype chain.
+
+// // So of course we could still call a method
+// // like the s on property method on mike too.
+// // It doesn't matter how far away
+// // in the prototype chain a method is.
+
+// // And with this,
+// // we now have the full picture of how inheritance
+// // between classes works with function constructors.
+// // And of course, with ES6 classes,
+// // it works exactly the same internally.
+
+// // All that changes is the syntax.
+// // So when we do the same thing in the next video
+// // using ES6 classes, then keep in mind
+// // that it's gonna work just like I described here.
+
+// //===
+
+// console.log(mike.__proto__);
+// console.log(mike.__proto__.__proto__);
+
+// // Student.prototype = Object.create(Person.prototype); because of this decalre above
+// console.log(mike instanceof Student); //true
+// console.log(mike instanceof Person); //true
+// console.log(mike instanceof Object); //true
+
+// console.dir(Student.prototype.constructor);
+// // So what I said that we need to fix is this.
+// // So when we take a look at
+// // student dot prototype dot constructor,
+// // then remember that ideally this should point back
+// // to the student, right?
+
+// // But here it points back, apparently to person.
+// // So actually we should use console dot dir
+// // And so you see that JavaScript now, thinks
+// // that the constructor of student or prototype
+// // is person here.
+
+// // And the reason for that is
+// // that we set the prototype property of the student
+// // using object dot create.
+// // And so this makes it so
+// // that the constructor of student dot prototype
+// // is still person.
+
+// // So we need to fix this because sometimes it's important
+// // to rely on this constructor property.
+// // And so if we want to rely on that,
+// // it should indeed be correct.
+
+// // But that's easy to fix.
+// // We can just say student dot prototype dot constructor
+// // and set it to student.
+// Student.prototype.constructor = Student;
+// console.dir(Student.prototype.constructor);
+
+/////////////////////////////////////////////////////////////////
+// Coding Challenge #3
+/////////////////////////////////////////////////////////////////
+// Your tasks:
+
+// 1. Use a constructor function to implement an Electric Car (called 'EV') as a child
+// "class" of 'Car'. Besides a make and current speed, the 'EV' also has the
+// current battery charge in % ('charge' property)
+
+// 2. Implement a 'chargeBattery' method which takes an argument
+// 'chargeTo' and sets the battery charge to 'chargeTo'
+
+// 3. Implement an 'accelerate' method that will increase the car's speed by 20,
+// and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140
+// km/h, with a charge of 22%'
+
+// 4. Create an electric car object and experiment with calling 'accelerate',
+// 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when
+// you 'accelerate'! Hint: Review the definiton of polymorphism �
+
+// Test data:
+// § Data car 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+// GOOD LUCK �
+
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
 };
 
-// SEE PDF Lecture
-
-// So far, this is what we have built.
-// So it's simply the student constructor function
-// and its prototype property.
-// And then the mike object linked to its prototype.
-// And that prototype is of course
-// the constructor functions prototype property.
-// Now this link between instance and prototype
-// has been made automatically by creating the mike object
-// with the new operator.
-// So all of this is what we had already learned.
-// So this is nothing new at this point
-// Right?
-// Now a student is also a person.
-// And so we want student and person to be connected like this.
-// So we really want the student class
-// to be the child class and inherit from the person class,
-// which will then function as the parent class.
-// So this way, all instances of student
-// could also get access to methods
-// from the person's prototype property,
-// like the calcAge method through the prototype chain.
-// And that's the whole idea of inheritance.
-// Its the child classes can share behavior
-// from their parent classes.
-// So looking at this diagram, basically what we want to do
-// is to make person dot prototype,
-// the prototype of student dot prototype.
-// Or in other words,
-// we want to set the underscore protal property
-// of student dot prototype to person dot prototype.
-// And if this sounds confusing,
-// then please just pause the video here for a minute
-// and keep looking at this diagram for some more time.
-// So that's why I created it.
-// Okay?
-
-// Now, anyway,we are gonna have to create this connection manually.
-// And to do this,
-// so to link these two prototype objects,
-// we are gonna use object dot create
-// because defining prototypes manually
-// is exactly what object dot create does.
-
-//Linking prototypes
-Student.prototype = Object.create(Person.prototype);
-// And with this,
-// the student dot prototype object is now an object that
-// inherits from person dot prototype.
-// Now we have to create this connection here
-// before we add any more methods
-// to the prototype object of student.
-// And that's because object dot create,
-// will return an empty object.
-// And so at this point, student dot prototype is empty.
-// And so then onto that empty object,
-// we can add methods like this one.
-// But if we did it the other way around
-// so if this was after we created this method here,
-// then object dot create
-// would basically overwrite these methods
-// that we had already added
-// to the prototype object of student.
-
-//==
-// Now you might be wondering why we even needed
-// to use object dot create.
-// So why didn't we just do this?
-
-// Student.prototype = Person.prototype;
-
-// See PDF Lecture
-// but in fact, this doesn't work at all.
-// And let me actually show you why that is.
-// So if we do student dot prototype
-// equal to person dot prototype,
-// then we will not end up with a prototype chain that we need.
-// Instead, we would end up with this,
-// which is a completely wrong prototype chain.
-// And that's because here we're actually saying
-// that the student's prototype property
-// and a person's prototype property
-// should be the exact same object.
-// But in fact that's just not what we want.
-// What we do want is the person's prototype object
-// to be the prototype of student dot prototype.
-// So we want to inherit from it,
-// but it should not be the exact same object.
-// And that's why we actually needed object dot create.
-//==
-
-Student.prototype.introduce = function () {
-  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
 };
 
-const mike = new Student('Mike', 2020, 'Computer Science');
-console.log(mike);
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
 
-mike.introduce();
+// 1
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
 
-mike.calcAge();
+// 2
+// Link the prototype
+EV.prototype = Object.create(Car.prototype);
 
-// SEE PDF LECTURE
-// And so let's actually now go analyze
-// what exactly happened here.
-// And we already know that this worked
-// because of the prototype chain,
-// but let's see exactly how.
-
-// So when we do mike dot calcAge,
-// we are effectively doing a property or a method lookup.
-// So that is JavaScript
-// trying to find the requested property or method.
-
-// Now, in this case, as we know,
-// the calcAge method is of course
-// not directly on the mike object.
-// It's also not in mike's prototype.
-// That's where we defined the introduced method,
-// but not calcAge.
-// Right?
-
-// So just like before,
-// whenever we try to access a method,
-// that's not on the object's prototype,
-// then JavaScript, will look up even further
-// in the prototype chain and see if it can find a method
-// so in the parent prototype.
-
-// And that's exactly what happens here.
-// So JavaScript will finally find the calcAge
-// in person dot prototype,
-// which is exactly where we defined it.
-
-// And that's the whole reason
-// why we set up the prototype chain like this
-// so that the mike object can inherit whatever methods
-// are in its parent class, basically.
-
-// So in summary,
-// we are now able to call a method
-// that is on a person's prototype property,
-// on a student object, and it still works.
-// So that's the power of inheritance.
-
-// And since we're already here,
-// let's also quickly complete the prototype chain.
-// So just like before object dot prototype will sit on
-// top of the prototype chain.
-
-// So of course we could still call a method
-// like the s on property method on mike too.
-// It doesn't matter how far away
-// in the prototype chain a method is.
-
-// And with this,
-// we now have the full picture of how inheritance
-// between classes works with function constructors.
-// And of course, with ES6 classes,
-// it works exactly the same internally.
-
-// All that changes is the syntax.
-// So when we do the same thing in the next video
-// using ES6 classes, then keep in mind
-// that it's gonna work just like I described here.
-
-//===
-
-console.log(mike.__proto__);
-console.log(mike.__proto__.__proto__);
-
-// Student.prototype = Object.create(Person.prototype); because of this decalre above
-console.log(mike instanceof Student); //true
-console.log(mike instanceof Person); //true
-console.log(mike instanceof Object); //true
-
-console.dir(Student.prototype.constructor);
-// So what I said that we need to fix is this.
-// So when we take a look at
-// student dot prototype dot constructor,
-// then remember that ideally this should point back
-// to the student, right?
-
-// But here it points back, apparently to person.
-// So actually we should use console dot dir
-// And so you see that JavaScript now, thinks
-// that the constructor of student or prototype
-// is person here.
-
-// And the reason for that is
-// that we set the prototype property of the student
 // using object dot create.
 // And so this makes it so
-// that the constructor of student dot prototype
-// is still person.
+// that the constructor of EV dot prototype
+// is still Car.
 
 // So we need to fix this because sometimes it's important
 // to rely on this constructor property.
@@ -2018,7 +2084,62 @@ console.dir(Student.prototype.constructor);
 // it should indeed be correct.
 
 // But that's easy to fix.
-// We can just say student dot prototype dot constructor
-// and set it to student.
-Student.prototype.constructor = Student;
-console.dir(Student.prototype.constructor);
+// We can just say EV dot prototype dot constructor
+// and set it to EV.
+EV.prototype.constructor = EV;
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+
+// 3
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+  console.log(
+    `${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}%`
+  );
+};
+
+// 4
+const tesla = new EV('Tesla', 120, 23);
+
+tesla.chargeBattery(90);
+console.log(tesla);
+tesla.brake();
+tesla.accelerate();
+
+// So when there are two methods
+// or properties with the same name in a prototype chain,
+// then the first one that appears in the chain
+// is the one that's gonna be used.
+// So the same is true also for the scope chain.
+
+// And this is the behavior that makes sense.
+// So with is basically a child class
+// can overwrite a method
+// that inherited from the parent class.
+
+// So if we didn't create
+// this accelerate method here,
+// then this would still work, right?
+// Because then the Tesla would simply inherit
+// the accelerate method from the Car.
+// Right?
+
+// Of course, now this wouldn't manipulate a charge.
+// It would simply increase the speed by 10,
+// but it would work
+// because it can still find the accelerate method
+// in the prototype chain.
+
+// But now as we have this,
+// then this accelerate method will override the one
+// from the parent class.
+// And remember that this is exactly the definition
+// of polymorphism that We talked about at the beginning
+// of the section.
+
+// And it might seem obvious that it works this way,
+// but it's still good to remind ourselves
+// that we can actually do this.
