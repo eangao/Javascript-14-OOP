@@ -2354,34 +2354,151 @@
 /////////////////////////////////////////////////////////////
 // Another Class Example
 /////////////////////////////////////////////////////////////
-// There are a few more things that we need
-// to learn about classes.
-// And so, let's actually create a new class now.
-// And as an example,
-// we are gonna use the bank account
-// that we implemented before, in the Bankist app.
+// // There are a few more things that we need
+// // to learn about classes.
+// // And so, let's actually create a new class now.
+// // And as an example,
+// // we are gonna use the bank account
+// // that we implemented before, in the Bankist app.
+
+// class Account {
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     this.pin = pin;
+//     this.movements = [];
+//     this.lacale = navigator.language;
+
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
+
+//   //public interface
+//   deposit(val) {
+//     this.movements.push(val);
+//   }
+
+//   withdraw(val) {
+//     this.deposit(-val);
+//   }
+
+//   approveLoan() {
+//     return true;
+//   }
+
+//   requestLoan(val) {
+//     if (this.approveLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan Approved`);
+//     }
+//   }
+// }
+
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// console.log(acc1);
+
+// //don't do this it will introduce so many bugs in the future
+// // acc1.movements.push(250); //deposit
+// // acc1.movements.push(-250); //withdraw
+
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// acc1.requestLoan(1000);
+
+// console.log(acc1);
+
+//////////////////////////////////////////////////////////////////
+// Encapsulation: Protected Properties and Methods
+//////////////////////////////////////////////////////////////////
+
+// Now, there are two big reasons why we need encapsulation
+// and data privacy.
+// So first it is to prevent code
+// from outside of a class to accidentally manipulate
+// or data inside the class.
+// And that's exactly what we did
+// by the end of the last lecture here.
+// So this is also the reason why
+// we implement a public interface.
+// So we are not supposed to manually mess with this property
+// and therefore we should encapsulate it.
+
+// Now, the second reason is
+// that when we expose only a small interface
+// so a small API consisting only of a few public methods
+// then we can change all the other internal methods
+// with more confidence.
+// Because in this case, we can be sure
+// that external code does not rely on these private methods.
+// And so therefore our code will not break
+// when we do internal changes.
+// So that's what encapsulation
+// and data privacy are and the reasons for it.
+
+// However JavaScript classes actually
+// do not yet support real data privacy and encapsulation.
+// Now there is a proposal to add truly private class fields
+// and methods to the language,
+// but it's not completely ready yet.
+// I will still show it to you in the next lecture
+// because it's really cool
+// but even when this feature ships in the browser
+// it will take some time until you can use it with confidence.
+// And so in this lecture, we will basically fake encapsulation
+// by simply using a convention.
 
 class Account {
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = [];
+
+     //to set pin to private
+    this._pin = pin;
+
+    //to set movements to private
+    //     So again this does not actually make
+    // the property truly private
+    // because this is just a convention.
+
+    // So it's something that developers agree to use
+    // and then everyone does it this way.
+
+    // But since it is not truly private we call this protected,
+    // so protected property.
+
+    // And so now if we wanted to get the movements outside here
+    // we could, of course still do this.
+    // So that's what I was just saying
+    // which is that the data here is of course still accessible
+
+    // if we use this underscore outside here as well
+    // but at least now everyone on your team
+    // and that includes yourself will know that this property
+    // is not supposed to be touched outside of the class.
+    // So you can still do it
+    // but at least you will know that it is wrong, okay?
+    this._movements = [];
+
     this.lacale = navigator.language;
 
     console.log(`Thanks for opening an account, ${owner}`);
   }
 
   //public interface
+  getMovements() {
+    return this._movements;
+  }
+
   deposit(val) {
-    this.movements.push(val);
+    this._movements.push(val);
   }
 
   withdraw(val) {
     this.deposit(-val);
   }
 
-  approveLoan() {
+
+    //to set approveLoan to private
+  _approveLoan() {
     return true;
   }
 
@@ -2396,12 +2513,9 @@ class Account {
 const acc1 = new Account('Jonas', 'EUR', 1111);
 console.log(acc1);
 
-//don't do this it will introduce so many bugs in the future
-// acc1.movements.push(250); //deposit
-// acc1.movements.push(-250); //withdraw
-
 acc1.deposit(250);
 acc1.withdraw(140);
 acc1.requestLoan(1000);
+console.log(acc1.getMovements());
 
 console.log(acc1);
