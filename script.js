@@ -2523,144 +2523,293 @@
 // Encapsulation: Private Class Fields and Methods
 ///////////////////////////////////////////////////////////////////
 
-// Alright, so let's now implement
-// truly private class fields and methods.
-// So private class fields and methods
-// are actually part of a bigger proposal
-// for improving and changing JavaScript classes
-// which is simply called Class fields.
+// // Alright, so let's now implement
+// // truly private class fields and methods.
+// // So private class fields and methods
+// // are actually part of a bigger proposal
+// // for improving and changing JavaScript classes
+// // which is simply called Class fields.
 
-// Now this Class fields proposal is currently at stage three.
-// And so right now it's actually not yet part
-// of the JavaScript language.
-// However, being at stage three
-// means that it's very likely that at some point,
-// it will move forward to stage number four.
-// And then it will actually become a part
-// of the JavaScript language.
+// // Now this Class fields proposal is currently at stage three.
+// // And so right now it's actually not yet part
+// // of the JavaScript language.
+// // However, being at stage three
+// // means that it's very likely that at some point,
+// // it will move forward to stage number four.
+// // And then it will actually become a part
+// // of the JavaScript language.
 
-// And that's probably gonna happen
-// some point soon in the future.
-// And that's why I decided to already include
-// class fields in this course.
-// And in fact, some parts of this proposal
-// actually already work in Google Chrome,
-// but other parts don't.
+// // And that's probably gonna happen
+// // some point soon in the future.
+// // And that's why I decided to already include
+// // class fields in this course.
+// // And in fact, some parts of this proposal
+// // actually already work in Google Chrome,
+// // but other parts don't.
 
-// At least not at the time of recording this video.
-// Now for starters, why is this proposal
-// actually called Class fields?
-// Well, in traditional OOP languages like Java and C++,
-// properties are usually called fields.
-// So what this means is that with this new proposal,
-// JavaScript is moving away from the idea that classes
-// are just syntactic sugar over constructor functions.
+// // At least not at the time of recording this video.
+// // Now for starters, why is this proposal
+// // actually called Class fields?
+// // Well, in traditional OOP languages like Java and C++,
+// // properties are usually called fields.
+// // So what this means is that with this new proposal,
+// // JavaScript is moving away from the idea that classes
+// // are just syntactic sugar over constructor functions.
 
-// Because with this new class features classes
-// actually start to have abilities
-// that we didn't previously have with constructor functions.
-// Now to many developers consider this to be a big problem
-// but personally, I'm not sure if it is such a big deal
-// for the average JavaScript developer.
+// // Because with this new class features classes
+// // actually start to have abilities
+// // that we didn't previously have with constructor functions.
+// // Now to many developers consider this to be a big problem
+// // but personally, I'm not sure if it is such a big deal
+// // for the average JavaScript developer.
 
-// So as long as you still understand
-// how prototypal inheritance and function constructors work
-// then I believe that you will be fine.
-// But anyway, no matter if you end up using
-// these new class features, let's now start exploring them.
-// So in this proposal, there are actually four different kinds
-// of fields and methods, and actually it's even eight.
-// But in this video, I'm just gonna focus on these four.
-// And that's public fields, that is private fields.
-// And then we have public methods
-// and we have private methods.
+// // So as long as you still understand
+// // how prototypal inheritance and function constructors work
+// // then I believe that you will be fine.
+// // But anyway, no matter if you end up using
+// // these new class features, let's now start exploring them.
+// // So in this proposal, there are actually four different kinds
+// // of fields and methods, and actually it's even eight.
+// // But in this video, I'm just gonna focus on these four.
+// // And that's public fields, that is private fields.
+// // And then we have public methods
+// // and we have private methods.
 
-// 1) Public fields
-// 2) Private fields
-// 3) Public methods
-// 4) Private methods
-// 5) (theres also a static method)
+// // 1) Public fields
+// // 2) Private fields
+// // 3) Public methods
+// // 4) Private methods
+// // 5) (theres also a static method)
+
+// class Account {
+//   // 1) Public fields
+
+//   //Public field did not pass the value in the constructor
+//   //   Because again, these public fields here
+//   // are gonna be present on all the instances
+//   // that we are creating through the class.
+//   // So they are not on the prototype.
+//   // So this is important to understand.
+//   // So all these methods that we add here
+//   // they will always be added to the prototype, right?
+//   // But again the fields here, they are on the instances.
+//   // Let me write that here as well.
+//   // And so again having this here,
+//   // is essentially exactly the same as this.
+//   // And therefore these public fields
+//   // they're also referenceable by the this keyboard
+//   // and they are also referenceable via the this keyword.
+//   locale = navigator.language;
+//   // _movements = [];
+
+//   // 2) Private field
+
+//   //   So with private fields we can now make it
+//   // so that properties are really truly
+//   // not accessible from the outside.
+//   // So just like in the last lecture, let's start
+//   // by now finally making the movements array private.
+//   // So let's move it here.
+//   // And now I will remove the underscore
+//   // and then I will use the # symbol.
+//   // And so this is the syntax that makes a field private
+//   // in this new class proposal.
+//   #movements = [];
+
+//   //   Now the next candidate to make private is this pin.
+//   // So in the last lecture we protected it
+//   // but now just like the movements, we want to convert it
+//   // to a truly private field.
+//   // However, this time the situation is a bit different.
+//   // Because now we are actually setting the pin
+//   // based on this input value to the constructor.
+//   // However, we can not define a field in the constructor.
+//   // So the fields, they really have to be out here
+//   // outside of any method.
+//   // So what we have to do is to create the field out here.
+//   // So the private field again with hash,
+//   // and then don't set it to anything.
+//   // And so this is essentially just
+//   // like creating an empty variable.
+//   // So in the beginning, this will be set to undefined
+//   // and then here we can redefine that value basically.
+//   // And so one more time we can see
+//   // that these class fields are really just
+//   // like any other property.
+//   // That's why later down here
+//   // we can then access it on the this keyword
+//   // and set it to the value that we received.
+//   // So let's try that.
+//   // And indeed the pin here is now also a protected field
+//   // or actually a private field.
+//   // And so when we try to access it,
+//   // we will no longer be able to do that.
+//   // Alright.
+//   // So that is truly private class fields.
+//   // And again these are gonna be available
+//   // on the instances themselves.
+//   // So not on the prototype.
+//   // And so, yeah, of course that's why we have them
+//   // right here in the instance.
+//   // Now, some people don't like the way
+//   // that the Syntax looks here with the # symbol
+//   // and there has been a lot of discussion going on.
+//   // Now, I don't mind it at all.
+//   // I just like to focus on the benefits
+//   // that this new syntax gives us.
+//   // There is a slight change that it might still change
+//   // before the proposal reaches stage four,
+//   // but in this case, I will simply go ahead
+//   // and update it as video.
+//   #pin;
+
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+
+//     //Protected property
+
+//     this.#pin = pin;
+//     // this._movements = [];
+
+//     // this.lacale = navigator.language;
+
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
+
+//   // 3) Public Method
+//   //public interface
+//   getMovements() {
+//     return this.#movements;
+//   }
+
+//   deposit(val) {
+//     this.#movements.push(val);
+//   }
+
+//   withdraw(val) {
+//     this.deposit(-val);
+//   }
+
+//   requestLoan(val) {
+//     if (this.#approveLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan Approved`);
+//     }
+//   }
+
+//   //5) static
+//   //   And so usually we use this for helper functions.
+//   // Because these static methods will not be available
+//   // on all the instances, but only on the class itself.
+//   // Remember,
+//   // so the static one here
+//   // only works like this.
+//   // So account.helper.
+//   // And so, as I said, there is also a static version
+//   // for all the other three ones.
+//   // But I'm not gonna show them to you now in this video
+//   // because they are really less important,
+//   // and if you want you can,
+//   // of course easily test them out by yourself.
+//   // Now, okay.
+//   // And that's actually it.
+//   static helper() {
+//     console.log('Helper');
+//   }
+
+//   // 4) Private method
+//   //   And private methods, as we already mentioned earlier
+//   // are very useful to hide the implementation details
+//   // from the outside.
+//   // And that's why in the previous lecture,
+//   // we already made this method
+//   // and protect it with this underscore.
+//   // And so let's no grab this and put it down here
+//   // and now to make a private method,
+//   // the syntax is exactly the same as private fields.
+//   // So just like with the hash.
+//   // Now, the big problem here, is that right now
+//   // no browser actually supports this.
+//   // So I can just show you how it works in the code
+//   // but unfortunately I cannot show you how it works.
+//   // So if I save this now I'll probably get some error.
+//   // And so, yeah, the first one is
+//   // that this function now no longer exists.
+//   // So let's change that here as well.
+//   // And well, we don't get any error actually.
+//   // So that's surprising to me, let's see what we have here.
+//   // So indeed here we have the approve loan now.
+//   // So I guess that right now Google Chrome
+//   // simply made this method like a private field.
+//   // So that's why it no longer appears in the prototype, right?
+//   // So it's not here, but now it's, instead on the instance.
+//   // So that's not really what we want.
+//   // Let's just test if we can access it out here.
+//   // So console.logacc1.approvedLoan with some value.
+//   // And then we get the same error as before.
+//   // So private fields approve loan.
+//   // And so, yeah, it's just as I said,
+//   // so Google Chrome right now basically sees this
+//   // as a private class field and not as a method.
+//   // And so that's why I was saying
+//   // that the methods are not really yet implemented
+//   // in Google Chrome.
+//   // So private methods are not available.
+//   // And so let me just leave it here as a comment,
+//   // but I will go back to simply protect it
+//   // with the underscore convention.
+//   // Alright.
+//   // So at some point in the future, this will work
+//   // but for now, let's leave it just as it was before.
+//   // Okay, so we talked about these four features here.
+
+//   //to set approveLoan to private
+//   #approveLoan() {
+//     return true;
+//   }
+// }
+
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// console.log(acc1);
+
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// acc1.requestLoan(1000);
+// console.log(acc1.getMovements());
+
+// console.log(acc1);
+
+// // console.log(acc1).#movements; //error now
+
+// Account.helper();
+
+// // So this is how we implement encapsulation
+// // and data privacy using the new class fields proposal
+// // that hopefully at some point will really become part
+// // of the JavaScript language.
+
+////////////////////////////////////////////////////////////////////
+// Chaining Methods
+////////////////////////////////////////////////////////////////////
+// Do you remember how we chained array methods
+// one after another, for example filter map and reduce?
+// So by chaining these methods,
+// we could first filter an array,
+// then map the result.
+// And finally reduce the results of the map,
+// all in one line of code.
+
+// And we can actually implement the same ability
+// of chaining methods in the methods of our class.
 
 class Account {
   // 1) Public fields
-
-  //Public field did not pass the value in the constructor
-  //   Because again, these public fields here
-  // are gonna be present on all the instances
-  // that we are creating through the class.
-  // So they are not on the prototype.
-  // So this is important to understand.
-  // So all these methods that we add here
-  // they will always be added to the prototype, right?
-  // But again the fields here, they are on the instances.
-  // Let me write that here as well.
-  // And so again having this here,
-  // is essentially exactly the same as this.
-  // And therefore these public fields
-  // they're also referenceable by the this keyboard
-  // and they are also referenceable via the this keyword.
   locale = navigator.language;
   // _movements = [];
 
   // 2) Private field
-
-  //   So with private fields we can now make it
-  // so that properties are really truly
-  // not accessible from the outside.
-  // So just like in the last lecture, let's start
-  // by now finally making the movements array private.
-  // So let's move it here.
-  // And now I will remove the underscore
-  // and then I will use the # symbol.
-  // And so this is the syntax that makes a field private
-  // in this new class proposal.
   #movements = [];
-
-  //   Now the next candidate to make private is this pin.
-  // So in the last lecture we protected it
-  // but now just like the movements, we want to convert it
-  // to a truly private field.
-  // However, this time the situation is a bit different.
-  // Because now we are actually setting the pin
-  // based on this input value to the constructor.
-  // However, we can not define a field in the constructor.
-  // So the fields, they really have to be out here
-  // outside of any method.
-  // So what we have to do is to create the field out here.
-  // So the private field again with hash,
-  // and then don't set it to anything.
-  // And so this is essentially just
-  // like creating an empty variable.
-  // So in the beginning, this will be set to undefined
-  // and then here we can redefine that value basically.
-  // And so one more time we can see
-  // that these class fields are really just
-  // like any other property.
-  // That's why later down here
-  // we can then access it on the this keyword
-  // and set it to the value that we received.
-  // So let's try that.
-  // And indeed the pin here is now also a protected field
-  // or actually a private field.
-  // And so when we try to access it,
-  // we will no longer be able to do that.
-  // Alright.
-  // So that is truly private class fields.
-  // And again these are gonna be available
-  // on the instances themselves.
-  // So not on the prototype.
-  // And so, yeah, of course that's why we have them
-  // right here in the instance.
-  // Now, some people don't like the way
-  // that the Syntax looks here with the # symbol
-  // and there has been a lot of discussion going on.
-  // Now, I don't mind it at all.
-  // I just like to focus on the benefits
-  // that this new syntax gives us.
-  // There is a slight change that it might still change
-  // before the proposal reaches stage four,
-  // but in this case, I will simply go ahead
-  // and update it as video.
   #pin;
 
   constructor(owner, currency, pin) {
@@ -2685,86 +2834,28 @@ class Account {
 
   deposit(val) {
     this.#movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
   requestLoan(val) {
     if (this.#approveLoan(val)) {
       this.deposit(val);
       console.log(`Loan Approved`);
+      return this;
     }
   }
 
   //5) static
-  //   And so usually we use this for helper functions.
-  // Because these static methods will not be available
-  // on all the instances, but only on the class itself.
-  // Remember,
-  // so the static one here
-  // only works like this.
-  // So account.helper.
-  // And so, as I said, there is also a static version
-  // for all the other three ones.
-  // But I'm not gonna show them to you now in this video
-  // because they are really less important,
-  // and if you want you can,
-  // of course easily test them out by yourself.
-  // Now, okay.
-  // And that's actually it.
   static helper() {
     console.log('Helper');
   }
 
   // 4) Private method
-  //   And private methods, as we already mentioned earlier
-  // are very useful to hide the implementation details
-  // from the outside.
-  // And that's why in the previous lecture,
-  // we already made this method
-  // and protect it with this underscore.
-  // And so let's no grab this and put it down here
-  // and now to make a private method,
-  // the syntax is exactly the same as private fields.
-  // So just like with the hash.
-  // Now, the big problem here, is that right now
-  // no browser actually supports this.
-  // So I can just show you how it works in the code
-  // but unfortunately I cannot show you how it works.
-  // So if I save this now I'll probably get some error.
-  // And so, yeah, the first one is
-  // that this function now no longer exists.
-  // So let's change that here as well.
-  // And well, we don't get any error actually.
-  // So that's surprising to me, let's see what we have here.
-  // So indeed here we have the approve loan now.
-  // So I guess that right now Google Chrome
-  // simply made this method like a private field.
-  // So that's why it no longer appears in the prototype, right?
-  // So it's not here, but now it's, instead on the instance.
-  // So that's not really what we want.
-  // Let's just test if we can access it out here.
-  // So console.logacc1.approvedLoan with some value.
-  // And then we get the same error as before.
-  // So private fields approve loan.
-  // And so, yeah, it's just as I said,
-  // so Google Chrome right now basically sees this
-  // as a private class field and not as a method.
-  // And so that's why I was saying
-  // that the methods are not really yet implemented
-  // in Google Chrome.
-  // So private methods are not available.
-  // And so let me just leave it here as a comment,
-  // but I will go back to simply protect it
-  // with the underscore convention.
-  // Alright.
-  // So at some point in the future, this will work
-  // but for now, let's leave it just as it was before.
-  // Okay, so we talked about these four features here.
-
-  //to set approveLoan to private
   #approveLoan() {
     return true;
   }
@@ -2777,14 +2868,46 @@ acc1.deposit(250);
 acc1.withdraw(140);
 acc1.requestLoan(1000);
 console.log(acc1.getMovements());
-
 console.log(acc1);
+Account.helper();
 
 // console.log(acc1).#movements; //error now
 
-Account.helper();
+//====== Chaining
 
-// So this is how we implement encapsulation
-// and data privacy using the new class fields proposal
-// that hopefully at some point will really become part
-// of the JavaScript language.
+// So let's say we wanted to do account,
+// and then deposit,
+// let's say, 300.
+// And then right afterwards, we wanted
+// to deposit again on the same account.
+// So we would like to call deposit again, right away,
+// let's say 500 this time.
+// And then immediately after that,
+// let's say we want to withdraw 35.
+// Maybe we also want to request a loan in the middle of this.
+// So request loan, let's say 25,000.
+// And then finally, we want to withdraw some more,
+// let's say 4000.
+// So right now, this is not gonna work.
+// So let's see the error.
+// And so the problem here is that...
+// this one here will work.
+// But this will then return nothing.
+// Because let's see,
+// the deposit method does return undefined
+// because we're not returning anything explicitly here.
+// And so then undefined gets returned.
+// And so then here, in this next one
+// we are trying to call the deposit method on undefined
+// which is the result of all this.
+// And therefore we get exactly that error here.
+// So what we need to do is to call deposit
+// actually on an account.
+// And so what we want is for the result of this year
+// to be again the account,
+
+// So returning this
+// will essentially make the method chainable.
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+
+console.log(acc1.getMovements());
