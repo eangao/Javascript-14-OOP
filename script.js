@@ -2026,120 +2026,233 @@
 /////////////////////////////////////////////////////////////////
 // Coding Challenge #3
 /////////////////////////////////////////////////////////////////
-// Your tasks:
+// // Your tasks:
 
-// 1. Use a constructor function to implement an Electric Car (called 'EV') as a child
-// "class" of 'Car'. Besides a make and current speed, the 'EV' also has the
-// current battery charge in % ('charge' property)
+// // 1. Use a constructor function to implement an Electric Car (called 'EV') as a child
+// // "class" of 'Car'. Besides a make and current speed, the 'EV' also has the
+// // current battery charge in % ('charge' property)
 
-// 2. Implement a 'chargeBattery' method which takes an argument
-// 'chargeTo' and sets the battery charge to 'chargeTo'
+// // 2. Implement a 'chargeBattery' method which takes an argument
+// // 'chargeTo' and sets the battery charge to 'chargeTo'
 
-// 3. Implement an 'accelerate' method that will increase the car's speed by 20,
-// and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140
-// km/h, with a charge of 22%'
+// // 3. Implement an 'accelerate' method that will increase the car's speed by 20,
+// // and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140
+// // km/h, with a charge of 22%'
 
-// 4. Create an electric car object and experiment with calling 'accelerate',
-// 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when
-// you 'accelerate'! Hint: Review the definiton of polymorphism �
+// // 4. Create an electric car object and experiment with calling 'accelerate',
+// // 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when
+// // you 'accelerate'! Hint: Review the definiton of polymorphism �
 
-// Test data:
-// § Data car 1: 'Tesla' going at 120 km/h, with a charge of 23%
+// // Test data:
+// // § Data car 1: 'Tesla' going at 120 km/h, with a charge of 23%
 
-// GOOD LUCK �
+// // GOOD LUCK �
 
-const Car = function (make, speed) {
-  this.make = make;
-  this.speed = speed;
-};
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// };
 
-Car.prototype.accelerate = function () {
-  this.speed += 10;
-  console.log(`${this.make} is going at ${this.speed} km/h`);
-};
+// Car.prototype.accelerate = function () {
+//   this.speed += 10;
+//   console.log(`${this.make} is going at ${this.speed} km/h`);
+// };
 
-Car.prototype.brake = function () {
-  this.speed -= 5;
-  console.log(`${this.make} is going at ${this.speed} km/h`);
-};
+// Car.prototype.brake = function () {
+//   this.speed -= 5;
+//   console.log(`${this.make} is going at ${this.speed} km/h`);
+// };
 
-// 1
-const EV = function (make, speed, charge) {
-  Car.call(this, make, speed);
-  this.charge = charge;
-};
+// // 1
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// };
 
-// 2
-// Link the prototype
-EV.prototype = Object.create(Car.prototype);
+// // 2
+// // Link the prototype
+// EV.prototype = Object.create(Car.prototype);
 
-// using object dot create.
-// And so this makes it so
-// that the constructor of EV dot prototype
-// is still Car.
+// // using object dot create.
+// // And so this makes it so
+// // that the constructor of EV dot prototype
+// // is still Car.
 
-// So we need to fix this because sometimes it's important
-// to rely on this constructor property.
-// And so if we want to rely on that,
-// it should indeed be correct.
+// // So we need to fix this because sometimes it's important
+// // to rely on this constructor property.
+// // And so if we want to rely on that,
+// // it should indeed be correct.
 
-// But that's easy to fix.
-// We can just say EV dot prototype dot constructor
-// and set it to EV.
-EV.prototype.constructor = EV;
+// // But that's easy to fix.
+// // We can just say EV dot prototype dot constructor
+// // and set it to EV.
+// EV.prototype.constructor = EV;
 
-EV.prototype.chargeBattery = function (chargeTo) {
-  this.charge = chargeTo;
-};
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo;
+// };
 
-// 3
-EV.prototype.accelerate = function () {
-  this.speed += 20;
-  this.charge--;
-  console.log(
-    `${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}%`
-  );
-};
+// // 3
+// EV.prototype.accelerate = function () {
+//   this.speed += 20;
+//   this.charge--;
+//   console.log(
+//     `${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}%`
+//   );
+// };
 
-// 4
-const tesla = new EV('Tesla', 120, 23);
+// // 4
+// const tesla = new EV('Tesla', 120, 23);
 
-tesla.chargeBattery(90);
-console.log(tesla);
-tesla.brake();
-tesla.accelerate();
+// tesla.chargeBattery(90);
+// console.log(tesla);
+// tesla.brake();
+// tesla.accelerate();
 
-// So when there are two methods
-// or properties with the same name in a prototype chain,
-// then the first one that appears in the chain
-// is the one that's gonna be used.
-// So the same is true also for the scope chain.
+// // So when there are two methods
+// // or properties with the same name in a prototype chain,
+// // then the first one that appears in the chain
+// // is the one that's gonna be used.
+// // So the same is true also for the scope chain.
 
-// And this is the behavior that makes sense.
-// So with is basically a child class
-// can overwrite a method
-// that inherited from the parent class.
+// // And this is the behavior that makes sense.
+// // So with is basically a child class
+// // can overwrite a method
+// // that inherited from the parent class.
 
-// So if we didn't create
-// this accelerate method here,
-// then this would still work, right?
-// Because then the Tesla would simply inherit
-// the accelerate method from the Car.
-// Right?
+// // So if we didn't create
+// // this accelerate method here,
+// // then this would still work, right?
+// // Because then the Tesla would simply inherit
+// // the accelerate method from the Car.
+// // Right?
 
-// Of course, now this wouldn't manipulate a charge.
-// It would simply increase the speed by 10,
-// but it would work
-// because it can still find the accelerate method
-// in the prototype chain.
+// // Of course, now this wouldn't manipulate a charge.
+// // It would simply increase the speed by 10,
+// // but it would work
+// // because it can still find the accelerate method
+// // in the prototype chain.
 
-// But now as we have this,
-// then this accelerate method will override the one
-// from the parent class.
-// And remember that this is exactly the definition
-// of polymorphism that We talked about at the beginning
-// of the section.
+// // But now as we have this,
+// // then this accelerate method will override the one
+// // from the parent class.
+// // And remember that this is exactly the definition
+// // of polymorphism that We talked about at the beginning
+// // of the section.
 
-// And it might seem obvious that it works this way,
-// but it's still good to remind ourselves
-// that we can actually do this.
+// // And it might seem obvious that it works this way,
+// // but it's still good to remind ourselves
+// // that we can actually do this.
+
+///////////////////////////////////////////////////////////////////////////
+// Inheritance Between "Classes": ES6 Classes
+///////////////////////////////////////////////////////////////////////////
+
+//class declaration
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  //Instance Method
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+
+  get age() {
+    return 2037 - this.birthYear;
+  }
+
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  // statid method
+  static hey() {
+    console.log('Hey there 🤚');
+  }
+}
+
+// So to implement inheritance between ES6 classes,
+// we only need two ingredients.
+// We need the extent keywords and we need the super function.
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    //     What we do instead is to call the super function.
+    // And so super is basically the constructor function
+    // of the parent class.
+    // So the idea is still similar to what we did
+    // in the constructor function,
+    // but here it all happens automatically.
+    // We don't need to specify the name of the parent class again,
+    // because that already happened up here.
+    // So here now all we do is to pass in
+    // the arguments for the constructor of the parent class.
+    // And so that's these two, because that's exactly
+    // the parameters that are also specified here
+    // in the parent's constructor.
+
+    // Always needs to happen first
+    super(fullName, birthYear);
+
+    //     And that's because this call to the super function
+    // is responsible for creating
+    // the disc keyword in this subclass.
+    // And so therefore, without doing this,
+    // we wouldn't be able to access the this keyword to do this.
+    // So always first the call to the super
+    // so to the parents class constructor.
+    // And from there, we will then be able
+    // to access the this keyword.
+    // Now, of course we could actually
+    // have no other properties here at all.
+    // So this is not necessary. I mean, it's not mandatory.
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.fullName} and I study ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(
+      `I'm ${
+        2037 - this.birthYear
+      } years old, but as a student I feel more like ${
+        2037 - this.birthYear + 10
+      }`
+    );
+  }
+}
+
+const martha = new StudentCl('Martha Jones', 2012, 'Computer Science');
+martha.introduce();
+martha.calcAge();
+
+// Now, to finish this part of inheritance between classes.
+// Let me just say that this mechanism of inheritance
+// that we explored here can actually be very problematic
+// and dangerous in the real world
+// when we are designing software.
+
+// However, that's going to be a
+// topic for another day.
+// And we're going to talk a little bit about this when we talk
+// about functional programming, which as I've mentioned,
+// a couple of times is kind of the alternative
+// to object oriented programming.
+// Anyway, next up,
+
+// let's do the same thing with object.create.
+// So that's the third way of implementing object
+// oriented programming in JavaScript.
