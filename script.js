@@ -2260,93 +2260,148 @@
 //////////////////////////////////////////////////////////////////
 // Inheritance Between "Classes": Object.create
 //////////////////////////////////////////////////////////////////
-const PersonProto = {
-  calcAge() {
-    console.log(2037 - this.birthYear);
-  },
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   },
 
-  init(firstName, birthYear) {
-    this.firstName = firstName;
-    this.birthYear = birthYear;
-  },
-};
+//   init(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   },
+// };
 
-const steven = Object.create(PersonProto);
+// const steven = Object.create(PersonProto);
 
-const StudentProto = Object.create(PersonProto);
-StudentProto.init = function (firstName, birthYear, course) {
-  PersonProto.init.call(this, firstName, birthYear);
-  this.course = course;
-};
+// const StudentProto = Object.create(PersonProto);
+// StudentProto.init = function (firstName, birthYear, course) {
+//   PersonProto.init.call(this, firstName, birthYear);
+//   this.course = course;
+// };
 
-StudentProto.introduce = function () {
-  console.log(`My name is ${this.firstName} and I study ${this.course}`);
-};
+// StudentProto.introduce = function () {
+//   console.log(`My name is ${this.firstName} and I study ${this.course}`);
+// };
 
-const jay = Object.create(StudentProto);
+// const jay = Object.create(StudentProto);
 
-// And so now the StudentProto object
-// that we just created earlier,
-// is now the prototype off the jay object.
+// // And so now the StudentProto object
+// // that we just created earlier,
+// // is now the prototype off the jay object.
 
-// So again, the StudentProto object
-// is now the prototype of jay,
-// and the PersonProto object is in turn
-// the prototype of StudentProto.
+// // So again, the StudentProto object
+// // is now the prototype of jay,
+// // and the PersonProto object is in turn
+// // the prototype of StudentProto.
 
-// And so therefore, PersonProto is a parent prototype of jay,
-// which means that it's in its prototype chain.
+// // And so therefore, PersonProto is a parent prototype of jay,
+// // which means that it's in its prototype chain.
 
-// Whoa, but that once again sounded a bit confusing.
-// And so let's make sure that we really understand
-// this by looking at a nice diagram again.
+// // Whoa, but that once again sounded a bit confusing.
+// // And so let's make sure that we really understand
+// // this by looking at a nice diagram again.
 
-// SEE PDF LECTURE
+// // SEE PDF LECTURE
 
-jay.init('Jay', 2010, 'Computer Science');
-jay.introduce();
-jay.calcAge();
+// jay.init('Jay', 2010, 'Computer Science');
+// jay.introduce();
+// jay.calcAge();
 
-// So in this version, we don't even worry
-// about constructors anymore,
-// and also not about prototype properties,
-// and not about the new operator.
+// // So in this version, we don't even worry
+// // about constructors anymore,
+// // and also not about prototype properties,
+// // and not about the new operator.
 
-// So it's really just objects linked to other objects.
-// And it's all really simple and beautiful,
-// if you ask me.
+// // So it's really just objects linked to other objects.
+// // And it's all really simple and beautiful,
+// // if you ask me.
 
-// And in fact, some people think that this pattern
-// is a lot better than basically trying
-// to fake classes in JavaScript,
-// because faking classes in the way
-// that they exist in other languages like Java or C plus plus
-// is exactly what we do by using constructor functions,
-// and even ES6 classes.
+// // And in fact, some people think that this pattern
+// // is a lot better than basically trying
+// // to fake classes in JavaScript,
+// // because faking classes in the way
+// // that they exist in other languages like Java or C plus plus
+// // is exactly what we do by using constructor functions,
+// // and even ES6 classes.
 
-// But here, in this technique
-// that I just showed you with Object.create,
-// we are, in fact, not faking classes.
+// // But here, in this technique
+// // that I just showed you with Object.create,
+// // we are, in fact, not faking classes.
 
-// All we are doing is simply linking objects together,
-// where some objects then serve
-// as the prototype of other objects.
+// // All we are doing is simply linking objects together,
+// // where some objects then serve
+// // as the prototype of other objects.
 
-// And personally, I wouldn't mind if this
-// was the only way of doing OOP in JavaScript,
-// but as I mentioned earlier,
-// ES6 classes and constructor functions
-// are actually way more used in the real world.
+// // And personally, I wouldn't mind if this
+// // was the only way of doing OOP in JavaScript,
+// // but as I mentioned earlier,
+// // ES6 classes and constructor functions
+// // are actually way more used in the real world.
 
-// But in any case, it's still super important and valuable
-// that you learned all of these three techniques now,
-// because you will see them all in the real world still.
+// // But in any case, it's still super important and valuable
+// // that you learned all of these three techniques now,
+// // because you will see them all in the real world still.
 
-// And this also allows you to think about this on your own
-// and choose the style that you like the best,
-// but again, in the real world,
-// and especially in modern JavaScript,
-// you will mostly see ES6 classes being used now.
+// // And this also allows you to think about this on your own
+// // and choose the style that you like the best,
+// // but again, in the real world,
+// // and especially in modern JavaScript,
+// // you will mostly see ES6 classes being used now.
 
-// And so, since I want to prepare you for the real world,
-// I will start using classes from this point on.
+// // And so, since I want to prepare you for the real world,
+// // I will start using classes from this point on.
+
+/////////////////////////////////////////////////////////////
+// Another Class Example
+/////////////////////////////////////////////////////////////
+// There are a few more things that we need
+// to learn about classes.
+// And so, let's actually create a new class now.
+// And as an example,
+// we are gonna use the bank account
+// that we implemented before, in the Bankist app.
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = [];
+    this.lacale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  //public interface
+  deposit(val) {
+    this.movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  approveLoan() {
+    return true;
+  }
+
+  requestLoan(val) {
+    if (this.approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Loan Approved`);
+    }
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+console.log(acc1);
+
+//don't do this it will introduce so many bugs in the future
+// acc1.movements.push(250); //deposit
+// acc1.movements.push(-250); //withdraw
+
+acc1.deposit(250);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+
+console.log(acc1);
