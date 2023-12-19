@@ -2792,122 +2792,138 @@
 ////////////////////////////////////////////////////////////////////
 // Chaining Methods
 ////////////////////////////////////////////////////////////////////
-// Do you remember how we chained array methods
-// one after another, for example filter map and reduce?
-// So by chaining these methods,
-// we could first filter an array,
-// then map the result.
-// And finally reduce the results of the map,
-// all in one line of code.
+// // Do you remember how we chained array methods
+// // one after another, for example filter map and reduce?
+// // So by chaining these methods,
+// // we could first filter an array,
+// // then map the result.
+// // And finally reduce the results of the map,
+// // all in one line of code.
 
-// And we can actually implement the same ability
-// of chaining methods in the methods of our class.
+// // And we can actually implement the same ability
+// // of chaining methods in the methods of our class.
 
-class Account {
-  // 1) Public fields
-  locale = navigator.language;
-  // _movements = [];
+// class Account {
+//   // 1) Public fields
+//   locale = navigator.language;
+//   // _movements = [];
 
-  // 2) Private field
-  #movements = [];
-  #pin;
+//   // 2) Private field
+//   #movements = [];
+//   #pin;
 
-  constructor(owner, currency, pin) {
-    this.owner = owner;
-    this.currency = currency;
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
 
-    //Protected property
+//     //Protected property
 
-    this.#pin = pin;
-    // this._movements = [];
+//     this.#pin = pin;
+//     // this._movements = [];
 
-    // this.lacale = navigator.language;
+//     // this.lacale = navigator.language;
 
-    console.log(`Thanks for opening an account, ${owner}`);
-  }
+//     console.log(`Thanks for opening an account, ${owner}`);
+//   }
 
-  // 3) Public Method
-  //public interface
-  getMovements() {
-    return this.#movements;
-  }
+//   // 3) Public Method
+//   //public interface
+//   getMovements() {
+//     return this.#movements;
+//   }
 
-  deposit(val) {
-    this.#movements.push(val);
-    return this;
-  }
+//   deposit(val) {
+//     this.#movements.push(val);
+//     return this;
+//   }
 
-  withdraw(val) {
-    this.deposit(-val);
-    return this;
-  }
+//   withdraw(val) {
+//     this.deposit(-val);
+//     return this;
+//   }
 
-  requestLoan(val) {
-    if (this.#approveLoan(val)) {
-      this.deposit(val);
-      console.log(`Loan Approved`);
-      return this;
-    }
-  }
+//   requestLoan(val) {
+//     if (this.#approveLoan(val)) {
+//       this.deposit(val);
+//       console.log(`Loan Approved`);
+//       return this;
+//     }
+//   }
 
-  //5) static
-  static helper() {
-    console.log('Helper');
-  }
+//   //5) static
+//   static helper() {
+//     console.log('Helper');
+//   }
 
-  // 4) Private method
-  #approveLoan() {
-    return true;
-  }
-}
+//   // 4) Private method
+//   #approveLoan() {
+//     return true;
+//   }
+// }
 
-const acc1 = new Account('Jonas', 'EUR', 1111);
-console.log(acc1);
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// console.log(acc1);
 
-acc1.deposit(250);
-acc1.withdraw(140);
-acc1.requestLoan(1000);
-console.log(acc1.getMovements());
-console.log(acc1);
-Account.helper();
+// acc1.deposit(250);
+// acc1.withdraw(140);
+// acc1.requestLoan(1000);
+// console.log(acc1.getMovements());
+// console.log(acc1);
+// Account.helper();
 
-// console.log(acc1).#movements; //error now
+// // console.log(acc1).#movements; //error now
 
-//====== Chaining
+// //====== Chaining
 
-// So let's say we wanted to do account,
-// and then deposit,
-// let's say, 300.
-// And then right afterwards, we wanted
-// to deposit again on the same account.
-// So we would like to call deposit again, right away,
-// let's say 500 this time.
-// And then immediately after that,
-// let's say we want to withdraw 35.
-// Maybe we also want to request a loan in the middle of this.
-// So request loan, let's say 25,000.
-// And then finally, we want to withdraw some more,
-// let's say 4000.
-// So right now, this is not gonna work.
-// So let's see the error.
-// And so the problem here is that...
-// this one here will work.
-// But this will then return nothing.
-// Because let's see,
-// the deposit method does return undefined
-// because we're not returning anything explicitly here.
-// And so then undefined gets returned.
-// And so then here, in this next one
-// we are trying to call the deposit method on undefined
-// which is the result of all this.
-// And therefore we get exactly that error here.
-// So what we need to do is to call deposit
-// actually on an account.
-// And so what we want is for the result of this year
-// to be again the account,
+// // So let's say we wanted to do account,
+// // and then deposit,
+// // let's say, 300.
+// // And then right afterwards, we wanted
+// // to deposit again on the same account.
+// // So we would like to call deposit again, right away,
+// // let's say 500 this time.
+// // And then immediately after that,
+// // let's say we want to withdraw 35.
+// // Maybe we also want to request a loan in the middle of this.
+// // So request loan, let's say 25,000.
+// // And then finally, we want to withdraw some more,
+// // let's say 4000.
+// // So right now, this is not gonna work.
+// // So let's see the error.
+// // And so the problem here is that...
+// // this one here will work.
+// // But this will then return nothing.
+// // Because let's see,
+// // the deposit method does return undefined
+// // because we're not returning anything explicitly here.
+// // And so then undefined gets returned.
+// // And so then here, in this next one
+// // we are trying to call the deposit method on undefined
+// // which is the result of all this.
+// // And therefore we get exactly that error here.
+// // So what we need to do is to call deposit
+// // actually on an account.
+// // And so what we want is for the result of this year
+// // to be again the account,
 
-// So returning this
-// will essentially make the method chainable.
-acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+// // So returning this
+// // will essentially make the method chainable.
+// acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
 
-console.log(acc1.getMovements());
+// console.log(acc1.getMovements());
+
+
+/////////////////////////////////////////////////////////////
+// ES6 Classes Summary
+/////////////////////////////////////////////////////////////
+
+// So as we reach the end of this section,
+// let's quickly review all the terminology around classes
+// because there is so much different stuff going on.
+// So a lot of different features that you can use.
+// And since classes are probably the way
+// you're gonna implement OOP by yourself,
+// it's always good to have a nice overview of everything
+// that we can do with them.
+
+// SEE PDF LECTURE
